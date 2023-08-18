@@ -16,7 +16,7 @@ const nextConfig = {
   },
   distDir: 'build',
   trailingSlash: true,
-  assetPrefix: isProd ? 'https://nt-cdn.vietdev.work' : undefined,
+  assetPrefix: isProd ? 'https://next-webtinhoc.vercel.app' : undefined,
   images: {
     domains: [
       'localhost',
