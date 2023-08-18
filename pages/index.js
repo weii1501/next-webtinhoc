@@ -1,118 +1,281 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+'use client'
+import React from 'react'
+import {
+  Box, Button,
+  Container,
+  Grid,
+  Input,
+  InputAdornment,
+  Stack,
+  Typography
+} from '@mui/material'
 
-const inter = Inter({ subsets: ['latin'] })
+import { CategoryCard } from '@/components/category'
+import NoSSR from '@/components/NoSSR'
+import { getCategories, getHotTags } from '@/apis/apis'
+import { styled, useTheme } from '@mui/material/styles'
+import { v4 as uuidv4 } from 'uuid'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import Iconify from '@/components/iconify'
+import { bgBlur } from '@/utils/cssStyles'
 
-export default function Home() {
+export async function getStaticProps ({ locale }) {
+  const categories = await getCategories().then(res => res.data).catch(err => console.log(err))
+  const hotTags = await getHotTags().then(res => res.data).catch(err => console.log(err))
+  return {
+    props: {
+      categories: categories.data,
+      tags: hotTags,
+      ...(await serverSideTranslations(locale, ['common', 'footer'], null, ['vi', 'en']))
+    }
+  }
+}
+
+function Index ({ categories, tags }) {
+  console.log(tags)
+  const { t } = useTranslation('common')
+  const theme = useTheme()
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <>
+      <StyledDiv
+        sx={{
+          minHeight: '50vh'
+        }}
+      >
+        <Box
+          sx={{
+            height: '50vh',
+            width: '50vh',
+            backgroundColor: 'transparent',
+            position: 'absolute',
+            top: 1,
+            left: 1,
+            zIndex: 0,
+            '& img': {
+              color: 'transparent'
+            }
+          }}
+          component='img'
+          alt='bg'
+          src='/assets/icons/neuromorphic-computing-icon.svg'
         />
-      </div>
+        <Box
+          sx={{
+            height: '50vh',
+            width: '50vh',
+            backgroundColor: 'transparent',
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            zIndex: 0,
+            '& img': {
+              color: 'transparent'
+            }
+          }}
+          component='img'
+          alt='bg'
+          src='/assets/icons/wired-keyboard-mouse-icon.svg'
+        />
+        <Container>
+          <Stack direction='column' alignItems='center' justifyContent='center' mb={5}>
+            <Box
+              sx={{
+                width: '70%',
+                zIndex: 20,
+                py: 4
+              }}
+            >
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+              <Typography variant='h1' gutterBottom sx={{ textTransform: 'uppercase' }} align='center'>
+                {t('home_h1')}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: '80%',
+                zIndex: 20
+              }}
+            >
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+              <Typography variant='h4' gutterBottom color='text.secondary' align='center'>
+                Đây là chuyên trang về công nghệ, kỹ thuật lập trình và hướng dẫn kỹ năng phát triển trong lĩnh vực web và mobile.
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: {
+                  xs: '100%',
+                  sm: '60%'
+                },
+                zIndex: 20,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              <StyledSearchHome>
+                <Input
+                  autoFocus
+                  fullWidth
+                  disableUnderline
+                  placeholder='Bạn đang muốn tìm gì?'
+                  startAdornment={
+                    <InputAdornment position='start'>
+                      <Iconify icon='eva:search-fill' sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                    </InputAdornment>
+                          }
+                  sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
+                />
+              </StyledSearchHome>
+            </Box>
+          </Stack>
+        </Container>
+      </StyledDiv>
+      <StyledDiv>
+        <Container>
+          <Grid
+            container
+            columns={3}
+            direction={{
+              xs: 'column',
+              sm: 'row'
+            }}
+            spacing={3}
+            mt={1}
+          >
+            {intro.map((item, index) =>
+              <Grid
+                key={uuidv4()}
+                item
+                xs={1}
+              >
+                <Box
+                  sx={{
+                    height: '100%',
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    border: `1px solid ${theme.palette.grey[400]}`,
+                    p: 2,
+                    borderRadius: 1,
+                    zIndex: 20
+                  }}
+                >
+                  <Typography variant='subtitle1' gutterBottom color='text.main'>
+                    {item.title}
+                  </Typography>
+                  <Typography variant='body1' gutterBottom color='text.main'>
+                    {item.content}
+                  </Typography>
+                </Box>
+              </Grid>)}
+          </Grid>
+          <Typography
+            variant='h5'
+            sx={{
+              textTransform: 'uppercase',
+              mt: 5
+            }}
+            color='text.secondary'
+          >
+            những chủ đề được quan tâm
+          </Typography>
+          <Stack
+            direction='row'
+            alignItems='start'
+            justifyContent='start'
+            spacing={1}
+            useFlexGap
+            sx={{
+              flexWrap: 'wrap'
+            }}
+            mb={5}
+          >
+            {tags?.map((tag, index) => (
+              <Typography
+                key={index}
+                variant='body1'
+                gutterBottom
+                mb={0}
+                sx={{
+                  color: 'text.secondary',
+                  px: 1,
+                  borderRadius: 1,
+                  backgroundColor: 'grey.300',
+                  '&:hover': {
+                    color: 'primary.main',
+                    textDecoration: 'underline'
+                  }
+                }}
+              >
+                <Link href={`/tag/${tag.slug}`}>
+                  #{tag?.name}
+                </Link>
+              </Typography>
+            ))}
+          </Stack>
+        </Container>
+      </StyledDiv>
+      <StyledDiv>
+        <Container>
+          <Stack direction='row' alignItems='start' justifyContent='start' mt={5}>
+            <Typography variant='h5' gutterBottom sx={{ textTransform: 'uppercase' }} color='text.secondary'>
+              Những chủ đề nổi bật
+            </Typography>
+          </Stack>
+          <Grid container spacing={3}>
+            {categories.map((category, index) => (
+              <CategoryCard category={category} index={index} key={index} />
+            ))}
+          </Grid>
+        </Container>
+      </StyledDiv>
+    </>
   )
 }
+export default NoSSR(Index)
+
+const StyledDiv = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  minHeight: 'auto',
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative'
+}))
+
+const HEADER_MOBILE = 64
+const HEADER_DESKTOP = 92
+
+const StyledSearchHome = styled('div')(({ theme }) => ({
+  color: theme.palette.background.default,
+  top: 0,
+  left: 0,
+  zIndex: 99,
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  height: HEADER_MOBILE,
+  border: `3px solid ${theme.palette.grey[400]}`,
+  borderRadius: theme.shape.borderRadius,
+  padding: theme.spacing(0, 1),
+    marginTop: theme.spacing(6),
+}))
+
+const intro = [
+  {
+    title: 'Kho bài viết chất lượng cao',
+    content: 'Chúng tôi cung cấp những bài viết có tính hữu dụng và thực tế trong một thư viện dễ dàng tìm kiếm và tra cứu.'
+  },
+  {
+    title: 'Trau dồi kỹ năng lập trình',
+    content: 'Cùng với sự phát triển của cộng đồng các nhà phát triển, chúng ta có cơ hội tranh luận cùng nhau trong một môi trường văn minh.'
+  },
+  {
+    title: 'Chia sẻ kiến thức của bạn',
+    content: 'Tại Vietdev, bạn có thể đăng ký thành viên và gửi bài viết cho chúng tôi. Nếu bài viết được đăng, bạn sẽ nhận được nhuận bút'
+  }
+]
