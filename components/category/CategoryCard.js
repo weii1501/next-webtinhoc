@@ -8,6 +8,7 @@ import { fShortenNumber } from '@/utils/formatNumber'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import {DJANGO_BASE_URL} from "@/constants";
+import {generateRandomCoverUrl} from "@/utils/utils";
 
 const StyledCardMedia = styled('div')({
   position: 'relative',
@@ -90,7 +91,7 @@ export default function CategoryCard ({ topic, subcategory, category, index }) {
             })
           }}
         >
-          <StyledCover alt={name ?? title} src={`${DJANGO_BASE_URL}${cover}`} />
+          <StyledCover alt={name ?? title} src={cover ? `${DJANGO_BASE_URL}${cover}` : generateRandomCoverUrl()} />
         </StyledCardMedia>
 
         <CardContent

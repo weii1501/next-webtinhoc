@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { DJANGO_BASE_URL } from '@/constants'
 import React from 'react'
-import {numberFormatter} from "@/utils/utils";
+import {generateRandomCoverUrl, numberFormatter} from "@/utils/utils";
 
 // ----------------------------------------------------------------------
 
@@ -138,7 +138,7 @@ export default function ArticleCard ({ article, index }) {
             }}
           />
 
-          <StyledCover alt={article.user.username} src={`${DJANGO_BASE_URL}${article.cover}`} />
+          <StyledCover alt={article.user.username} src={article.cover ? `${DJANGO_BASE_URL}${article.cover}` : generateRandomCoverUrl()} />
         </StyledCardMedia>
 
         <CardContent

@@ -106,3 +106,9 @@ export function numberFormatter (num, digits) {
   }
   return isNaN(num) ? null : num.toString()
 }
+
+export function generateRandomCoverUrl() {
+  const coverNumber = Math.floor(Math.random() * 24) + 1
+  const coverUrl = "/assets/images/covers/cover_" + coverNumber + ".jpg"
+  return coverUrl
+}

@@ -4,6 +4,7 @@ import { styled, useTheme } from '@mui/material/styles'
 import { DJANGO_BASE_URL } from '@/constants'
 import Link from 'next/link'
 import ReactHtmlParser from 'react-html-parser'
+import {generateRandomCoverUrl} from "@/utils/utils";
 
 function TagArticleItem ({ article }) {
   const theme = useTheme()
@@ -32,7 +33,7 @@ function TagArticleItem ({ article }) {
         >
           <CardMedia
             component='img'
-            image={article.cover ? `${DJANGO_BASE_URL}${article.cover}` : '/static/images/placeholder.png'}
+            image={article.cover ? `${DJANGO_BASE_URL}${article.cover}` : generateRandomCoverUrl()}
             alt='cover'
             height='auto'
             sx={{

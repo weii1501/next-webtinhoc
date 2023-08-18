@@ -4,15 +4,18 @@ import TagArticles from '@/components/tag/TagArticles'
 import {getTagData} from '@/apis/apis'
 import {ThreadCard} from '@/components/threads'
 import Iconify from '@/components/iconify'
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps (context) {
   const { tag } = context.params
+    const { locale } = context
   const data = await getTagData(tag).then(res => res.data.data)
   return {
     props: {
       tag: data.tag,
       articles: data.articles,
-      threads: data.threads
+      threads: data.threads,
+        ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
     }
   }
 }
