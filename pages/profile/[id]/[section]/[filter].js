@@ -16,9 +16,11 @@ import ActivitySection from '@/components/profile/ActivitySection'
 import { getAboutUser } from '@/apis/apis'
 import { DJANGO_BASE_URL } from '@/constants'
 import { useTheme } from '@mui/material/styles'
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps (context) {
   const { id, section, filter } = context.params
+  const { locale } = context
 
   const data = await getAboutUser(id).then(res => res.data.data)
 
@@ -27,7 +29,8 @@ export async function getServerSideProps (context) {
       id,
       filter,
       section,
-      data
+      data,
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
     }
   }
 }

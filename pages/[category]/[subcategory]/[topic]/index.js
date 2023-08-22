@@ -32,9 +32,7 @@ export async function getServerSideProps (context) {
       topic: data.topic,
       data: data.data,
       threads,
-      ...(await serverSideTranslations(locale, [
-        'common'
-      ]))
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
     }
   }
 }
