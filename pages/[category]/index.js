@@ -39,9 +39,7 @@ export async function getServerSideProps (context) {
       props: {
         category,
         data,
-        ...(await serverSideTranslations(locale, [
-          'common'
-        ]))
+        ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
       }
     }
   } catch (error) {

@@ -31,9 +31,7 @@ export async function getServerSideProps (context) {
       section,
       data: data ?? null,
       filter: filter ?? '',
-      ...(await serverSideTranslations(locale, [
-        'common'
-      ]))
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
     }
   }
 }

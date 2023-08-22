@@ -28,9 +28,7 @@ export async function getServerSideProps (context) {
     props: {
       article,
       data: data[0],
-      ...(await serverSideTranslations(locale, [
-        'common'
-      ]))
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
     }
   }
 }
