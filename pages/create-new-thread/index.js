@@ -3,7 +3,15 @@ import NoSSR from '@/components/NoSSR'
 import { Container, Stack, Typography } from '@mui/material'
 import { FormCreateArticle } from '@/components/articles'
 import Layout from '@/components/Layout'
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
+export async function getStaticProps ({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
+    }
+  }
+}
 const Index = () => {
   return (
     <>

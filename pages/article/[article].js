@@ -15,10 +15,15 @@ import Iconify from '@/components/iconify'
 import { WrapComments } from '@/components/comment'
 import { getArticle, postArtilceLike, postView } from '@/apis/apis'
 import { fDateTime } from '@/utils/formatTime'
-import ReactHtmlParser from 'react-html-parser'
+import ReactHtmlParser, {
+  convertNodeToElement,
+  processNodes
+} from 'react-html-parser'
 import Link from 'next/link'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
+import { generateRandomCoverUrl } from '@/utils/utils'
+// import { node } from 'prop-types'
 
 export async function getServerSideProps (context) {
   const { locale } = context
@@ -187,7 +192,7 @@ function Article ({ article, data }) {
                   >
                     <Link href={`/profile/${data.user.id}/summary`}>
                       <Typography
-                        variant='subtitle2'
+                        variant='h5'
                         sx={{
                           color: 'text.primary',
                           '&:hover': {
@@ -216,9 +221,42 @@ function Article ({ article, data }) {
               </StyledAccount>
             </Box>
           </Stack>
+          {console.log(data)}
           <Typography
             variant='body1'
             gutterBottom
+            sx={{
+              fontSize: '20px',
+              fontWeight: '700'
+            }}
+          >
+            {data?.articleDescription}
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mb: 4
+            }}
+          >
+            <img
+              src={data?.cover ?? generateRandomCoverUrl()}
+              alt='article cover'
+              style={{
+                display: 'flex',
+                margin: 'auto',
+                maxWidth: 800,
+                maxHeight: 800,
+                my: 2,
+                borderRadius: 2,
+                boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+                cursor: 'pointer'
+              }}
+            />
+          </Box>
+          <Box
             sx={{
               mb: 3,
               '& > ol': {
@@ -226,11 +264,20 @@ function Article ({ article, data }) {
               },
               '& > ol > li': {
                 listStyleType: 'circle'
+              },
+              '& > pre': {
+                whiteSpace: 'pre-wrap',
+                backgroundColor: 'grey.200',
+                py: 2,
+                px: 4
               }
             }}
           >
             {HTMLCanvas(data.content, handleOpen)}
-          </Typography>
+            {/* {ReactHtmlParser(data.content)} */}
+          </Box>
+          {/* {HTMLCanvas(data.content, handleOpen)} */}
+          {/* {ReactHtmlParser(data.content, options)} */}
           <Stack
             direction='row'
             spacing={1}
@@ -320,6 +367,30 @@ function HTMLCanvas (htmlContent, handleOpen) {
     handleOpen(src)
   }
   const htmlParserTransform = (node, index) => {
+    if (node.type === 'tag' && node.name === 'span') {
+      return null
+    }
+
+    // Transform <ul> into <ol>
+    // A node can be modified and passed to the convertNodeToElement function which will continue to render it and it's children
+    if (node.type === 'tag' && node.name === 'ul') {
+      node.name = 'ol'
+      return convertNodeToElement(node, index, htmlParserTransform)
+    }
+
+    // return an <i> element for every <b>
+    // a key must be included for all elements
+    if (node.type === 'tag' && node.name === 'b') {
+      return <i key={index}>{processNodes(node.children, htmlParserTransform)}</i>
+    }
+
+    // all links must open in a new window
+    if (node.type === 'tag' && node.name === 'a') {
+      node.attribs.target = '_blank'
+      // console.log(node);
+      // console.log(index);
+      return convertNodeToElement(node, index, htmlParserTransform)
+    }
     if (node.type === 'tag' && node.name === 'img') { // a tag named a
       const { src } = node.attribs // extract the actual url
       return (
@@ -352,10 +423,77 @@ function HTMLCanvas (htmlContent, handleOpen) {
         </div>
       )
     }
+    return convertNodeToElement(node, index, htmlParserTransform)
   }
-
   return ReactHtmlParser(
     htmlContent, // or whatever
     { transform: htmlParserTransform }
   )
+}
+
+const options = {
+  decodeEntities: true,
+  transform
+}
+
+function transform (node, index) {
+  // return null to block certain elements
+  // don't allow <span> elements
+  if (node.type === 'tag' && node.name === 'span') {
+    return null
+  }
+
+  // Transform <ul> into <ol>
+  // A node can be modified and passed to the convertNodeToElement function which will continue to render it and it's children
+  if (node.type === 'tag' && node.name === 'ul') {
+    node.name = 'ol'
+    return convertNodeToElement(node, index, transform)
+  }
+
+  // return an <i> element for every <b>
+  // a key must be included for all elements
+  if (node.type === 'tag' && node.name === 'b') {
+    return <i key={index}>{processNodes(node.children, transform)}</i>
+  }
+
+  // all links must open in a new window
+  if (node.type === 'tag' && node.name === 'a') {
+    node.attribs.target = '_blank'
+    // console.log(node);
+    // console.log(index);
+    return convertNodeToElement(node, index, transform)
+  }
+
+  if (node.type === 'tag' && node.name === 'img') { // a tag named a
+    const { src } = node.attribs // extract the actual url
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <img
+          onClick={() => onClick(src)}
+          src={src}
+          alt={node.name}
+          style={{
+            display: 'flex',
+            margin: 'auto',
+            maxWidth: 500,
+            maxHeight: 500,
+            my: 2,
+            borderRadius: 2,
+            boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+            cursor: 'pointer'
+          }}
+        />
+        <Typography variant='caption' color='text.secondary' gutterBottom mt={0.5}>
+          Nhấn ảnh để xem ảnh đầy đủ
+        </Typography>
+      </div>
+    )
+  }
 }

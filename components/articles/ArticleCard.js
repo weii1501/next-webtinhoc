@@ -166,7 +166,7 @@ export default function ArticleCard ({ article, index }) {
               })
             }}
           >
-            <Link href={!article ? `/${CatergorySlug}/${SubcatergorySlug}/${TopicSlug}/${article.id}` : `/article/${article.slug}`}>
+            <Link href={!article ? `/${CatergorySlug}/${SubcatergorySlug}/${TopicSlug}/${article.id}` : `/article/${article.slug}.${article.id}`}>
               {article.title}
             </Link>
           </StyledTitle>

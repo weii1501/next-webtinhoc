@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react'
-import {Container, Grid, Stack, Typography} from '@mui/material'
-import {CategoryCard} from '@/components/category'
+import { Container, Grid, Stack, Typography } from '@mui/material'
+import { CategoryCard } from '@/components/category'
 import NoSSR from '@/components/NoSSR'
-import {getSubcategories} from '@/apis/apis'
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import { getSubcategories } from '@/apis/apis'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 function Index ({ category, data }) {
   // console.log(data)

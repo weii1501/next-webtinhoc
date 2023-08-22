@@ -97,6 +97,7 @@ export default React.memo(function AccountPopover () {
           autoClose: 3000
         })
       }
+      setOpen(null)
     }).catch(e => {
       toast.error(e?.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -134,7 +135,11 @@ export default React.memo(function AccountPopover () {
               })
             }}
           >
-            <Avatar src={`${DJANGO_BASE_URL}${user.profileImage}`} alt='photoURL' />
+            <Avatar
+              src={`${DJANGO_BASE_URL}${user.profileImage}`}
+              alt='photoURL'
+              size='md'
+            />
           </IconButton>
           )
         : (

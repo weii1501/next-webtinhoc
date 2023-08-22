@@ -7,8 +7,8 @@ import Iconify from '@/components/iconify'
 import { fShortenNumber } from '@/utils/formatNumber'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import {DJANGO_BASE_URL} from "@/constants";
-import {generateRandomCoverUrl} from "@/utils/utils";
+import { DJANGO_BASE_URL } from '@/constants'
+import { generateRandomCoverUrl } from '@/utils/utils'
 
 const StyledCardMedia = styled('div')({
   position: 'relative',
@@ -80,7 +80,7 @@ export default function CategoryCard ({ topic, subcategory, category, index }) {
                 width: '100%',
                 height: '100%',
                 position: 'absolute',
-                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+                bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
               }
             }),
             ...(latestPostLarge && {
@@ -91,7 +91,12 @@ export default function CategoryCard ({ topic, subcategory, category, index }) {
             })
           }}
         >
-          <StyledCover alt={name ?? title} src={cover ? `${DJANGO_BASE_URL}${cover}` : generateRandomCoverUrl()} />
+          <StyledCover
+            alt={name ?? title}
+            src={cover ? `${DJANGO_BASE_URL}${cover}` : generateRandomCoverUrl()}
+            width={270}
+            height={360}
+          />
         </StyledCardMedia>
 
         <CardContent
@@ -106,7 +111,7 @@ export default function CategoryCard ({ topic, subcategory, category, index }) {
         >
           <StyledTitle
             color='inherit'
-            variant='subtitle2'
+            variant='h3'
             underline='none'
             sx={{
               ...(latestPostLarge && { typography: 'h2', height: 60 }),
@@ -116,7 +121,8 @@ export default function CategoryCard ({ topic, subcategory, category, index }) {
               }),
               ...(!latestPostLarge && !latestPost && {
                 typography: 'h2'
-              })
+              }),
+              typography: 'h3'
             }}
           >
             <Link href={pathname} className='w-full h-auto'>

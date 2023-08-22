@@ -75,7 +75,7 @@ function ThreadCard ({
                 <TableRow key={index}>
                   <TableCell>
                     <Typography variant='subtitle2' noWrap>
-                      <Link href={`/thread/${thread.slug}`}>
+                      <Link href={`/thread/${thread.slug}.${thread.id}`}>
                         {thread.title}
                       </Link>
                     </Typography>

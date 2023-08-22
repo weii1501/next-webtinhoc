@@ -18,6 +18,8 @@ import ThemeProvider from '@/theme'
 import Layout from '@/components/Layout'
 import UserProvider from '@/hooks/context'
 import { appWithTranslation } from 'next-i18next'
+import { DefaultSeo } from 'next-seo'
+import { BRAND_NAME, OG_TITLE, SITE_BASE_URL } from '@/constants'
 
 dayjs.extend(relativeTime)
 dayjs.locale('vi')
@@ -70,6 +72,30 @@ function App ({ Component, pageProps }) {
           </>
         )}
       </Head>
+
+      <DefaultSeo
+        title={BRAND_NAME}
+        openGraph={{
+          type: 'website',
+          site_name: BRAND_NAME,
+          title: OG_TITLE,
+          url: SITE_BASE_URL,
+          images: [
+            {
+              url: `${SITE_BASE_URL}/assets/images/ogimg.jpg`,
+              width: 1200,
+              height: 630,
+              alt: BRAND_NAME
+            }
+          ]
+        }}
+        twitter={{
+          cardType: 'summary_large_image'
+        }}
+        facebook={{
+          appId: '112276442265938'
+        }}
+      />
 
       <ThemeProvider>
         <StyleProvider hashPriority='high'>

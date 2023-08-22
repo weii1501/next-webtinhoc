@@ -20,25 +20,35 @@ import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
 import Iconify from '@/components/iconify'
 import { bgBlur } from '@/utils/cssStyles'
+import { BRAND_NAME, SITE_BASE_URL } from '@/constants'
+import { NextSeo } from 'next-seo'
 
 export async function getStaticProps ({ locale }) {
   const categories = await getCategories().then(res => res.data).catch(err => console.log(err))
   const hotTags = await getHotTags().then(res => res.data).catch(err => console.log(err))
   return {
     props: {
-      categories: categories.data,
-      tags: hotTags,
+      categories: categories.data ?? [],
+      tags: hotTags ?? [],
       ...(await serverSideTranslations(locale, ['common', 'footer'], null, ['vi', 'en']))
     }
   }
 }
 
 function Index ({ categories, tags }) {
-  console.log(tags)
+  const pageTitle = 'Webtinhoc'
+  const pageDesc = `Website ${BRAND_NAME} chuyên trang về công nghệ, kỹ thuật lập trình và hướng dẫn kỹ năng phát triển trong lĩnh vực web và mobile.`
+
   const { t } = useTranslation('common')
   const theme = useTheme()
   return (
     <>
+      <NextSeo
+        title={`${pageTitle} - ${BRAND_NAME}`}
+        description={pageDesc}
+        canonical={SITE_BASE_URL}
+      />
+
       <StyledDiv
         sx={{
           minHeight: '50vh'
@@ -52,15 +62,17 @@ function Index ({ categories, tags }) {
             position: 'absolute',
             top: 1,
             left: 1,
-            zIndex: 0,
-            '& img': {
-              color: 'transparent'
-            }
+            zIndex: 0
           }}
-          component='img'
-          alt='bg'
-          src='/assets/icons/neuromorphic-computing-icon.svg'
-        />
+        >
+          <img
+            alt='bg'
+            src='/assets/icons/neuromorphic-computing-icon.svg'
+            height={500}
+            width={500}
+            className='w-full h-full object-contain transparent'
+          />
+        </Box>
         <Box
           sx={{
             height: '50vh',
@@ -69,15 +81,17 @@ function Index ({ categories, tags }) {
             position: 'absolute',
             bottom: 0,
             right: 0,
-            zIndex: 0,
-            '& img': {
-              color: 'transparent'
-            }
+            zIndex: 0
           }}
-          component='img'
-          alt='bg'
-          src='/assets/icons/wired-keyboard-mouse-icon.svg'
-        />
+        >
+          <img
+            alt='bg'
+            src='/assets/icons/wired-keyboard-mouse-icon.svg'
+            height={500}
+            width={500}
+            className='w-full h-full object-contain transparent'
+          />
+        </Box>
         <Container>
           <Stack direction='column' alignItems='center' justifyContent='center' mb={5}>
             <Box
@@ -99,7 +113,7 @@ function Index ({ categories, tags }) {
               }}
             >
 
-              <Typography variant='h4' gutterBottom color='text.secondary' align='center'>
+              <Typography variant='body1' color='text.secondary' align='center' sx={{ fontSize: '24px' }}>
                 Đây là chuyên trang về công nghệ, kỹ thuật lập trình và hướng dẫn kỹ năng phát triển trong lĩnh vực web và mobile.
               </Typography>
             </Box>
@@ -163,25 +177,36 @@ function Index ({ categories, tags }) {
                     zIndex: 20
                   }}
                 >
-                  <Typography variant='subtitle1' gutterBottom color='text.main'>
+                  {/* <Typography variant='subtitle1' gutterBottom color='text.main'> */}
+                  {/*  {item.title} */}
+                  {/* </Typography> */}
+                  <h2 className={`text-[16px] text-[${theme.palette.text.primary}] font-bold mb-1`}>
                     {item.title}
-                  </Typography>
+                  </h2>
                   <Typography variant='body1' gutterBottom color='text.main'>
                     {item.content}
                   </Typography>
                 </Box>
               </Grid>)}
           </Grid>
-          <Typography
-            variant='h5'
-            sx={{
-              textTransform: 'uppercase',
-              mt: 5
+          {/* <Typography */}
+          {/*  variant='h5' */}
+          {/*  sx={{ */}
+          {/*    textTransform: 'uppercase', */}
+          {/*    mt: 5 */}
+          {/*  }} */}
+          {/*  color='text.secondary' */}
+          {/* > */}
+          {/*  những chủ đề được quan tâm */}
+          {/* </Typography> */}
+          <h2
+            className='text-[20px] uppercase mt-5 font-bold'
+            style={{
+              color: theme.palette.text.secondary
             }}
-            color='text.secondary'
           >
             những chủ đề được quan tâm
-          </Typography>
+          </h2>
           <Stack
             direction='row'
             alignItems='start'
@@ -221,9 +246,17 @@ function Index ({ categories, tags }) {
       <StyledDiv>
         <Container>
           <Stack direction='row' alignItems='start' justifyContent='start' mt={5}>
-            <Typography variant='h5' gutterBottom sx={{ textTransform: 'uppercase' }} color='text.secondary'>
-              Những chủ đề nổi bật
-            </Typography>
+            {/* <Typography variant='h5' gutterBottom sx={{ textTransform: 'uppercase' }} color='text.secondary'> */}
+            {/*  Những chủ đề nổi bật */}
+            {/* </Typography> */}
+            <h2
+              className='text-[20px] uppercase mt-5 font-bold'
+              style={{
+                color: theme.palette.text.secondary
+              }}
+            >
+              những chủ đề được quan tâm
+            </h2>
           </Stack>
           <Grid container spacing={3}>
             {categories.map((category, index) => (
@@ -262,7 +295,7 @@ const StyledSearchHome = styled('div')(({ theme }) => ({
   border: `3px solid ${theme.palette.grey[400]}`,
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(0, 1),
-    marginTop: theme.spacing(6),
+  marginTop: theme.spacing(6)
 }))
 
 const intro = [

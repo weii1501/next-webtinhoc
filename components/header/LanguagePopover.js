@@ -54,7 +54,13 @@ export default function LanguagePopover () {
           })
         }}
       >
-        <img src={language.icon} alt={language.label} />
+        <img
+          src={language.icon}
+          alt={language.label}
+          width={44}
+          height={30}
+          className='object-contain'
+        />
       </IconButton>
 
       <Popover

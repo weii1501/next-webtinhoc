@@ -73,7 +73,7 @@ function TagArticleItem ({ article }) {
                   }
                 }}
               >
-                <Link href={`/article/${article?.slug}`}>
+                <Link href={`/article/${article?.slug}.${article?.id}`}>
                   {article?.title}
                 </Link>
               </Typography>

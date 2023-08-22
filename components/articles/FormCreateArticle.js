@@ -3,7 +3,7 @@ import React, { useTransition } from 'react'
 import {
   Autocomplete,
   Box,
-  Button,
+  Button, Input,
   Stack,
   TextField,
   Typography
@@ -85,12 +85,21 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
   const onSubmit = (data) => {
     const cleanedContent = data.content.replace(/<p>/g, '').replace(/<\/p>/g, '')
     const tags = data.tags.map(tag => tag.slug)
-    const sendData = {
-      topic: data.topic.slug,
-      title: data.title,
-      content: cleanedContent,
-      tags: tags.join(',')
-    }
+    // const sendData = {
+    //   topic: data.topic.slug,
+    //   title: data.title,
+    //   content: cleanedContent,
+    //   tags: tags.join(',')
+    // }
+    // console.log(data.cover)
+    const sendData = new FormData()
+    sendData.append('topic', data.topic.slug)
+    sendData.append('title', data.title)
+    sendData.append('content', cleanedContent)
+    sendData.append('tags', tags.join(','))
+    sendData.append('cover', data.cover)
+    sendData.append('article_description', data.article_description)
+    console.log('submit article', sendData)
     startSend(() => {
       if (article) {
         console.log('submit article', sendData)
@@ -135,6 +144,7 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
       <Stack direction='column' spacing={3}>
         <Controller
           name='topic'
+          required
           control={control}
           defaultValue=''
           render={({ field }) => (
@@ -174,6 +184,7 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
 
         <Controller
           name='title'
+          required
           control={control}
           defaultValue=''
           render={({ field }) => (
@@ -189,7 +200,30 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
         />
 
         <Controller
+          name='article_description'
+          required
+          control={control}
+          defaultValue=''
+          render={({ field }) => (
+            <TextField
+              fullWidth
+              multiline
+              onChange={field.onChange}
+              name='articleDescription'
+              label='Mô tả bài viết'
+              variant='standard'
+              sx={{
+                '& textarea': {
+                  fontSize: '14px !important'
+                }
+              }}
+            />
+          )}
+        />
+
+        <Controller
           name='tags'
+          required
           control={control}
           defaultValue={[]}
           render={({ field }) => (
@@ -214,7 +248,7 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
             />
           )}
         />
-
+        {/* editor */}
         <Stack direction='column' alignItems='start' justifyContent='start' mt={3}>
           <Typography variant='caption' gutterBottom>
             {t('content_thread')}
@@ -254,6 +288,7 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
             }}
           >
             <Controller
+              required
               control={control}
               name='content'
               render={({ field }) => (
@@ -268,11 +303,31 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
                 />
               )}
             />
-
           </Box>
+
+          <Controller
+            name='cover'
+            required
+            control={control}
+            defaultValue=''
+            render={({ field }) => (
+              <Input
+                type='file'
+                fullWidth
+                sx={{
+                  p: 1
+                }}
+                onChange={(e) => {
+                  field.onChange(e.target.files[0])
+                }}
+              />
+            )}
+          />
+
           <Typography variant='body2' gutterBottom sx={{ mt: 0 }}>
             <strong>{t('note')}:</strong> {t('articles_will_be_reviewed_before_being_displayed_on_the_website')}
           </Typography>
+
           <Button disabled={send} type='submit' variant='contained' startIcon={<Iconify icon='material-symbols:cloud-upload' />}>
             {t('save_thread')}
           </Button>
