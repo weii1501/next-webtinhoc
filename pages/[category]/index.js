@@ -7,6 +7,19 @@ import NoSSR from '@/components/NoSSR'
 import { getSubcategories } from '@/apis/apis'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+export async function getServerSideProps (context) {
+  const { category } = context.params
+  const { locale } = context
+  // const data = await Subcategories.find(subcategory => subcategory.slug === category)
+  const data = await getSubcategories(category).then(res => res.data.data).catch(err => console.log(err))
+  return {
+    props: {
+      category,
+      data,
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
+    }
+  }
+}
 function Index ({ category, data }) {
   // console.log(data)
   return (
@@ -29,27 +42,3 @@ function Index ({ category, data }) {
 
 export default NoSSR(Index)
 
-export async function getServerSideProps (context) {
-  try {
-    const { category } = context.params
-    const { locale } = context
-    // const data = await Subcategories.find(subcategory => subcategory.slug === category)
-    const data = await getSubcategories(category).then(res => res.data.data).catch(err => console.log(err))
-    return {
-      props: {
-        category,
-        data,
-        ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
-      }
-    }
-  } catch (error) {
-    // Xử lý lỗi và chuyển hướng đến trang 404
-    context.res.writeHead(404, { Location: '/404' })
-    context.res.end()
-
-    // Trả về null để tránh lỗi serializer
-    return {
-      props: {}
-    }
-  }
-}

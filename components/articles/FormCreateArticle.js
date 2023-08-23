@@ -1,16 +1,17 @@
 'use client'
-import React, { useTransition } from 'react'
+import React, {useTransition} from 'react'
 import {
   Autocomplete,
   Box,
-  Button, Input,
+  Button,
+  Input,
   Stack,
   TextField,
   Typography
 } from '@mui/material'
 import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
-import { useTheme } from '@mui/material/styles'
+import {useTheme} from '@mui/material/styles'
 import Iconify from '@/components/iconify'
 import {
   adminUpdateThread,
@@ -19,13 +20,13 @@ import {
   postNewArticle,
   postThread
 } from '@/apis/apis'
-import { Controller, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import {Controller, useForm} from 'react-hook-form'
+import {toast} from 'react-toastify'
 import TreeView from '@mui/lab/TreeView'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import TreeItem from '@mui/lab/TreeItem'
-import { useTranslation } from 'next-i18next'
+import {useTranslation} from 'next-i18next'
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -51,6 +52,12 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
   const [topics, setTopics] = React.useState(null)
 
   const [tags, setTags] = React.useState([])
+
+  const [editorLoaded, setEditorLoaded] = React.useState(false)
+
+  React.useEffect(() => {
+    setEditorLoaded(true)
+  }, [])
 
   React.useEffect(() => {
     if (thread) {
@@ -199,27 +206,29 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
           )}
         />
 
-        <Controller
-          name='article_description'
-          required
-          control={control}
-          defaultValue=''
-          render={({ field }) => (
-            <TextField
-              fullWidth
-              multiline
-              onChange={field.onChange}
-              name='articleDescription'
-              label='Mô tả bài viết'
-              variant='standard'
-              sx={{
-                '& textarea': {
-                  fontSize: '14px !important'
-                }
-              }}
-            />
-          )}
-        />
+        {article && (
+          <Controller
+            name='article_description'
+            required
+            control={control}
+            defaultValue=''
+            render={({ field }) => (
+              <TextField
+                fullWidth
+                multiline
+                onChange={field.onChange}
+                name='articleDescription'
+                label='Mô tả bài viết'
+                variant='standard'
+                sx={{
+                  '& textarea': {
+                    fontSize: '14px !important'
+                  }
+                }}
+              />
+            )}
+          />
+        )}
 
         <Controller
           name='tags'
@@ -301,28 +310,45 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
                   onChange={field.onChange}
                   placeholder={t('content_thread')}
                 />
+                // <Editor
+                //   name='description'
+                //   onChange={(data) => {
+                //     field.onChange(data)
+                //   }}
+                //   editorLoaded={editorLoaded}
+                // />
               )}
             />
           </Box>
 
-          <Controller
-            name='cover'
-            required
-            control={control}
-            defaultValue=''
-            render={({ field }) => (
-              <Input
-                type='file'
-                fullWidth
-                sx={{
-                  p: 1
-                }}
-                onChange={(e) => {
-                  field.onChange(e.target.files[0])
-                }}
-              />
-            )}
-          />
+          {/* <Editor */}
+          {/*  name='description' */}
+          {/*  onChange={(data) => { */}
+          {/*    setData(data) */}
+          {/*  }} */}
+          {/*  editorLoaded={editorLoaded} */}
+          {/* /> */}
+
+          {article && (
+            <Controller
+              name='cover'
+              required
+              control={control}
+              defaultValue=''
+              render={({ field }) => (
+                <Input
+                  type='file'
+                  fullWidth
+                  sx={{
+                    p: 1
+                  }}
+                  onChange={(e) => {
+                    field.onChange(e.target.files[0])
+                  }}
+                />
+              )}
+            />
+          )}
 
           <Typography variant='body2' gutterBottom sx={{ mt: 0 }}>
             <strong>{t('note')}:</strong> {t('articles_will_be_reviewed_before_being_displayed_on_the_website')}

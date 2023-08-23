@@ -11,7 +11,7 @@
   "dependencies": {
     "@ant-design/cssinjs": "^1.16.1",
     "@babel/core": "^7.22.9",
-    "@ckeditor/ckeditor5-build-classic": "^38.1.1",
+    "@ckeditor/ckeditor5-build-classic": "^39.0.1",
     "@ckeditor/ckeditor5-react": "^6.1.0",
     "@emotion/css": "^11.11.2",
     "@emotion/react": "^11.11.1",
@@ -92,6 +92,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.22.9",
+    "@ckeditor/ckeditor5-paragraph": "^39.0.1",
     "@emotion/babel-plugin": "^11.11.0",
     "@emotion/babel-preset-css-prop": "^11.11.0",
     "@next/bundle-analyzer": "^13.4.12",

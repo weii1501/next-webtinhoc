@@ -34,7 +34,7 @@ const styled = {
   boxShadow: 24
 }
 
-function ThreadForm () {
+function ThreadForm ({ thread }) {
   const router = useRouter()
   const { topic } = router.query
   const [send, startSend] = useTransition()

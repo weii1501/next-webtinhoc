@@ -3,6 +3,7 @@ import { extractCritical } from '@emotion/server'
 import React from 'react'
 import createEmotionServer from '@emotion/server/create-instance'
 import createEmotionCache from '../createEmotionCache'
+import * as i18nextConfig from 'next-i18next'
 
 export default class MyDocument extends Document {
   static async getInitialProps (ctx) {
@@ -23,8 +24,11 @@ export default class MyDocument extends Document {
   }
 
   render () {
+    const currentLocale =
+          this.props.__NEXT_DATA__.locale ??
+          i18nextConfig.i18n.defaultLocale
     return (
-      <Html lang='vi'>
+      <Html lang={currentLocale}>
         <Head>
           <link rel='preconnect' href='https://fonts.googleapis.com' />
           <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='true' />

@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { DJANGO_BASE_URL, AUTH_TOKEN } from '../constants'
-import Cookies from 'js-cookie'
+import {AUTH_TOKEN, DJANGO_BASE_URL } from '../constants'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
@@ -8,8 +7,8 @@ axios.defaults.withCredentials = true
 
 const authProfilesAxios = axios.create({
   baseURL: DJANGO_BASE_URL + '/api/users/',
-  timeout: 30000
-  // headers: { Authorization: `Basic ${AUTH_TOKEN}` }
+  timeout: 30000,
+  headers: { Authorization: `Basic ${AUTH_TOKEN}` }
 })
 
 const profilesAxios = axios.create({
@@ -19,29 +18,29 @@ const profilesAxios = axios.create({
 
 // Interceptor to update token before each request
 // Interceptor to update token before each request
-profilesAxios.interceptors.request.use((config) => {
-  const token = Cookies.get('jwtToken')
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-
-  return config
-}, (error) => {
-  return Promise.reject(error)
-})
-
-authProfilesAxios.interceptors.request.use((config) => {
-  const token = Cookies.get('jwtToken')
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-
-  return config
-}, (error) => {
-  return Promise.reject(error)
-})
+// profilesAxios.interceptors.request.use((config) => {
+//   const token = Cookies.get('jwtToken')
+//
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`
+//   }
+//
+//   return config
+// }, (error) => {
+//   return Promise.reject(error)
+// })
+//
+// authProfilesAxios.interceptors.request.use((config) => {
+//   const token = Cookies.get('jwtToken')
+//
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`
+//   }
+//
+//   return config
+// }, (error) => {
+//   return Promise.reject(error)
+// })
 
 export function postUserAPI (action, postData) {
   let url = ''

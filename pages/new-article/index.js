@@ -5,12 +5,12 @@ import { FormCreateArticle } from '@/components/articles'
 import { getCategories } from '@/apis/apis'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-export async function getStaticProps ({ locale }) {
+export async function getServerSideProps ({ locale }) {
   const categories = await getCategories().then(res => res.data).catch(err => console.log(err))
   return {
     props: {
       categories: categories.data,
-      ...(await serverSideTranslations(locale, ['common', 'footer'], null, ['vi', 'en']))
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
     }
   }
 }

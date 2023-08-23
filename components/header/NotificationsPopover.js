@@ -1,24 +1,21 @@
-import PropTypes from 'prop-types'
-import { set, sub } from 'date-fns'
 import { noCase } from 'change-case'
-import { faker } from '@faker-js/faker'
 import React, { useContext, useEffect, useState } from 'react'
 // @mui
 import {
-  Box,
-  List,
-  Badge,
-  Button,
   Avatar,
-  Tooltip,
+  Badge,
+  Box,
+  Button,
   Divider,
-  Popover,
-  Typography,
   IconButton,
+  List,
+  ListItemAvatar,
+  ListItemButton,
   ListItemText,
   ListSubheader,
-  ListItemAvatar,
-  ListItemButton
+  Popover,
+  Tooltip,
+  Typography
 } from '@mui/material'
 import Iconify from '@/components/iconify'
 import Scrollbar from '@/components/scrollbar/Scrollbar'
@@ -28,7 +25,6 @@ import { Context } from '@/hooks/context'
 import { getNotifications, putReadNotification } from '@/apis/apis'
 import { DJANGO_BASE_URL } from '@/constants'
 import { useRouter } from 'next/router'
-import { push } from 'ionicons/icons'
 // utils
 // components
 
@@ -175,7 +171,7 @@ function NotificationItem ({ notification, setOpen }) {
   const router = useRouter()
   const { title } = renderContent(notification)
   const handleClick = () => {
-    router.push(`/thread/${notification.thread.slug}`)
+    router.push(`/thread/${notification.thread.slug}.${notification.thread.id}`)
     if (!notification.isRead) {
       putReadNotification(notification.id).then((res) => {
         console.log(res.data)

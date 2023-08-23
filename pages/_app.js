@@ -3,23 +3,21 @@ import '@/styles/main.scss'
 
 import Head from 'next/head'
 import React from 'react'
-import { useAmp } from 'next/amp'
-import { Provider } from 'react-redux'
+import {useAmp} from 'next/amp'
+import {Provider} from 'react-redux'
 import store from '../store'
 import NextProgressbar from '../components/NextProgressbar'
-import { GoogleAnalytics } from 'nextjs-google-analytics'
+import {GoogleAnalytics} from 'nextjs-google-analytics'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/vi'
-import { StyleProvider } from '@ant-design/cssinjs'
-import { ConfigProvider } from 'antd'
-import { ScopedCssBaseline } from '@mui/material'
+import {StyleProvider} from '@ant-design/cssinjs'
+import {ConfigProvider} from 'antd'
+import {ScopedCssBaseline} from '@mui/material'
 import ThemeProvider from '@/theme'
 import Layout from '@/components/Layout'
 import UserProvider from '@/hooks/context'
-import { appWithTranslation } from 'next-i18next'
-import { DefaultSeo } from 'next-seo'
-import { BRAND_NAME, OG_TITLE, SITE_BASE_URL } from '@/constants'
+import {appWithTranslation} from 'next-i18next'
 
 dayjs.extend(relativeTime)
 dayjs.locale('vi')
@@ -73,29 +71,29 @@ function App ({ Component, pageProps }) {
         )}
       </Head>
 
-      <DefaultSeo
-        title={BRAND_NAME}
-        openGraph={{
-          type: 'website',
-          site_name: BRAND_NAME,
-          title: OG_TITLE,
-          url: SITE_BASE_URL,
-          images: [
-            {
-              url: `${SITE_BASE_URL}/assets/images/ogimg.jpg`,
-              width: 1200,
-              height: 630,
-              alt: BRAND_NAME
-            }
-          ]
-        }}
-        twitter={{
-          cardType: 'summary_large_image'
-        }}
-        facebook={{
-          appId: '112276442265938'
-        }}
-      />
+      {/* <DefaultSeo */}
+      {/*  title={BRAND_NAME} */}
+      {/*  openGraph={{ */}
+      {/*    type: 'website', */}
+      {/*    site_name: BRAND_NAME, */}
+      {/*    title: OG_TITLE, */}
+      {/*    url: SITE_BASE_URL, */}
+      {/*    images: [ */}
+      {/*      { */}
+      {/*        url: `${SITE_BASE_URL}/assets/images/ogimg.jpg`, */}
+      {/*        width: 1200, */}
+      {/*        height: 630, */}
+      {/*        alt: BRAND_NAME */}
+      {/*      } */}
+      {/*    ] */}
+      {/*  }} */}
+      {/*  twitter={{ */}
+      {/*    cardType: 'summary_large_image' */}
+      {/*  }} */}
+      {/*  facebook={{ */}
+      {/*    appId: '112276442265938' */}
+      {/*  }} */}
+      {/* /> */}
 
       <ThemeProvider>
         <StyleProvider hashPriority='high'>

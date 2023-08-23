@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useTransition} from 'react'
+import React, { useContext, useEffect, useRef, useTransition } from 'react'
 import {
   Avatar,
   Box,
@@ -7,15 +7,13 @@ import {
   IconButton,
   Stack
 } from '@mui/material'
-import account from '@/_mock/account'
 import { styled } from '@mui/material/styles'
 import Iconify from '@/components/iconify'
 import { Controller, useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { postComment } from '@/apis/apis'
-import { useSelector } from 'react-redux'
 import { DJANGO_BASE_URL } from '@/constants'
-import {Context} from "@/hooks/context";
+import { Context } from '@/hooks/context'
 
 function PostCommemt ({ setComments, comments }) {
   const {
@@ -28,7 +26,6 @@ function PostCommemt ({ setComments, comments }) {
   const router = useRouter()
   const { article, slug } = router.query
   const [isLoading, startLoading] = useTransition()
-  const store = useSelector(state => state.UserStore)
   const { user } = useContext(Context)
 
   useEffect(() => {
@@ -51,31 +48,31 @@ function PostCommemt ({ setComments, comments }) {
 
   const onSubmmit = (data) => {
     resetField('content')
-    startLoading(() => {
-      if (article) {
-        const replacedString = data.content.replace(/\n/g, '</br>')
-        // console.log(replacedString)
-        const comment = {
-          article_id: article.split('.').reverse()[0],
-          content: replacedString
-        }
-        postComment(comment).then(res => {
-          // console.log(res.data)
-          const newComments = [res.data, ...comments]
-          setComments(newComments)
-        })
-      } else {
-        const comment = {
-          thread_id: slug.split('.').reverse()[0],
-          content: data.content
-        }
-        postComment(comment).then(res => {
-          // console.log(res.data)
-          const newComments = [res.data, ...comments]
-          setComments(newComments)
-        })
+    if (article) {
+      const replacedString = data.content.replace(/\n/g, '</br>')
+      // console.log(replacedString)
+      const comment = {
+        article_id: article.split('.').reverse()[0],
+        content: replacedString
       }
-    })
+      startLoading(() => {
+        postComment(comment).then(res => {
+          // console.log(res.data)
+          const newComments = [res.data, ...comments]
+          setComments(newComments)
+        })
+      })
+    } else {
+      const comment = {
+        thread_id: slug.split('.').reverse()[0],
+        content: data.content
+      }
+      postComment(comment).then(res => {
+        // console.log(res.data)
+        const newComments = [res.data, ...comments]
+        setComments(newComments)
+      })
+    }
   }
 
   return (
