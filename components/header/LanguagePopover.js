@@ -48,7 +48,9 @@ export default function LanguagePopover () {
         sx={{
           padding: 0,
           width: 44,
-          height: 44,
+          height: 30,
+          overflow: 'hidden',
+          borderRadius: '4px',
           ...(open && {
             bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.focusOpacity)
           })
@@ -59,7 +61,7 @@ export default function LanguagePopover () {
           alt={language.label}
           width={44}
           height={30}
-          className='object-contain'
+          className='w-auto h-full object-cover'
         />
       </IconButton>
 
