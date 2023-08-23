@@ -19,7 +19,7 @@ import Iconify from '@/components/iconify'
 import Link from 'next/link'
 import NoSSR from '@/components/NoSSR'
 
-export async function getServerSideProps ({ locale }) {
+export async function getStaticProps ({ locale }) {
   const categories = await getCategories().then(res => res.data).catch(err => console.log(err))
   const hotTags = await getHotTags().then(res => res.data).catch(err => console.log(err))
   console.log(locale)
