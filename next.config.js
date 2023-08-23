@@ -13,6 +13,7 @@ const nextConfig = {
     accessTokenDelivery: process.env.accessTokenDelivery
   },
   trailingSlash: true,
+  distDir: 'build',
   assetPrefix: isProd ? 'https://next-webtinhoc.vercel.app' : undefined,
   images: {
     domains: ['localhost', '127.0.0.1', 'https://next-webtinhoc.vercel.app']
