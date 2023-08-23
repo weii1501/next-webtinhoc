@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-import { AUTH_TOKEN, DJANGO_BASE_URL } from '../constants'
-import Cookies from 'js-cookie'
+import {AUTH_TOKEN, DJANGO_BASE_URL } from '../constants'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
@@ -9,22 +8,22 @@ axios.defaults.withCredentials = true
 
 const query = axios.create({
   baseURL: DJANGO_BASE_URL + '/api/',
-  timeout: 30000
-  // headers: { Authorization: `Basic ${AUTH_TOKEN}` }
+  timeout: 30000,
+  headers: { Authorization: `Basic ${AUTH_TOKEN}` }
 })
 
 // Interceptor to update token before each request
-query.interceptors.request.use((config) => {
-  const token = Cookies.get('jwtToken')
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-
-  return config
-}, (error) => {
-  return Promise.reject(error)
-})
+// query.interceptors.request.use((config) => {
+//   const token = Cookies.get('jwtToken')
+//
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`
+//   }
+//
+//   return config
+// }, (error) => {
+//   return Promise.reject(error)
+// })
 
 export function getCategories () {
   return query.get('categories/')

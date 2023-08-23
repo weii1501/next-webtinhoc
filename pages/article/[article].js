@@ -401,6 +401,7 @@ function HTMLCanvas (htmlContent, handleOpen) {
             alignItems: 'center',
             justifyContent: 'center'
           }}
+          key={index}
         >
           <img
             onClick={() => onClick(src)}

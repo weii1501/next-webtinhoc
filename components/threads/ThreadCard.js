@@ -56,7 +56,11 @@ function ThreadCard ({
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <ThreadForm />
+        <div>
+          <ThreadForm
+            thread
+          />
+        </div>
       </Modal>
       <Card>
         <TableContainer sx={{ minWidth: 800 }}>

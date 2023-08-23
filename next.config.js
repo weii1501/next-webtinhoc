@@ -1,11 +1,9 @@
-/** @type {import('next').NextConfig} */
 require('dotenv').config()
 const path = require('path')
-const isProd = process.env.NODE_ENV === 'production'
 const { i18n } = require('./next-i18next.config')
+const isProd = process.env.NODE_ENV === 'production'
 
 const nextConfig = {
-  i18n,
   reactStrictMode: false,
   compiler: {
     emotion: true
@@ -14,14 +12,10 @@ const nextConfig = {
     spaceID: process.env.spaceID,
     accessTokenDelivery: process.env.accessTokenDelivery
   },
-  distDir: 'build',
   trailingSlash: true,
   assetPrefix: isProd ? 'https://next-webtinhoc.vercel.app' : undefined,
   images: {
-    domains: [
-      'localhost',
-      '127.0.0.1'
-    ]
+    domains: ['localhost', '127.0.0.1', 'https://next-webtinhoc.vercel.app']
   },
   modularizeImports: {
     lodash: {
@@ -46,7 +40,8 @@ const nextConfig = {
       }
     })
     return config
-  }
+  },
+  i18n
 }
 
 const plugins = [

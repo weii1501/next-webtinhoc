@@ -1,11 +1,25 @@
-'use client'
-
 import React from 'react'
 import { Container, Grid, Stack, Typography } from '@mui/material'
 import { CategoryCard } from '@/components/category'
 import NoSSR from '@/components/NoSSR'
-import {getSubcategories, getTopics} from '@/apis/apis'
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import { getTopics } from '@/apis/apis'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+export async function getServerSideProps (context) {
+  const { locale } = context
+  const { subcategory } = context.params
+  // const data = await Subcategories.find(subcategory => subcategory.slug === category)
+  const data = await getTopics(subcategory).then(res => res.data).catch(err => console.log(err))
+  return {
+    props: {
+      name: data.name,
+      data: data.data,
+      // name: '',
+      // data: [],
+      ...(await serverSideTranslations(locale, ['common']))
+    }
+  }
+}
 
 function Index ({ name, data }) {
   // console.log(data)
@@ -28,17 +42,3 @@ function Index ({ name, data }) {
 }
 
 export default NoSSR(Index)
-
-export async function getServerSideProps (context) {
-  const { locale } = context
-  const { subcategory } = context.params
-  // const data = await Subcategories.find(subcategory => subcategory.slug === category)
-  const data = await getTopics(subcategory).then(res => res.data).catch(err => console.log(err))
-  return {
-    props: {
-      name: data.name,
-      data: data.data,
-      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
-    }
-  }
-}

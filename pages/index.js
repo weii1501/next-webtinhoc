@@ -1,7 +1,6 @@
-'use client'
 import React from 'react'
 import {
-  Box, Button,
+  Box,
   Container,
   Grid,
   Input,
@@ -11,43 +10,43 @@ import {
 } from '@mui/material'
 
 import { CategoryCard } from '@/components/category'
-import NoSSR from '@/components/NoSSR'
 import { getCategories, getHotTags } from '@/apis/apis'
 import { styled, useTheme } from '@mui/material/styles'
 import { v4 as uuidv4 } from 'uuid'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
-import Link from 'next/link'
 import Iconify from '@/components/iconify'
-import { bgBlur } from '@/utils/cssStyles'
-import { BRAND_NAME, SITE_BASE_URL } from '@/constants'
-import { NextSeo } from 'next-seo'
+import Link from 'next/link'
+import NoSSR from '@/components/NoSSR'
 
-export async function getStaticProps ({ locale }) {
+export async function getServerSideProps ({ locale }) {
   const categories = await getCategories().then(res => res.data).catch(err => console.log(err))
   const hotTags = await getHotTags().then(res => res.data).catch(err => console.log(err))
+  console.log(locale)
   return {
     props: {
       categories: categories.data ?? [],
       tags: hotTags ?? [],
-      ...(await serverSideTranslations(locale, ['common', 'footer'], null, ['vi', 'en']))
+      ...(await serverSideTranslations(locale ?? 'vi', [
+        'common'
+      ], null, ['vi', 'en']))
     }
   }
 }
 
 function Index ({ categories, tags }) {
-  const pageTitle = 'Webtinhoc'
-  const pageDesc = `Website ${BRAND_NAME} chuyên trang về công nghệ, kỹ thuật lập trình và hướng dẫn kỹ năng phát triển trong lĩnh vực web và mobile.`
+  // const pageTitle = 'Webtinhoc'
+  // const pageDesc = `Website ${BRAND_NAME} chuyên trang về công nghệ, kỹ thuật lập trình và hướng dẫn kỹ năng phát triển trong lĩnh vực web và mobile.`
 
   const { t } = useTranslation('common')
   const theme = useTheme()
   return (
     <>
-      <NextSeo
-        title={`${pageTitle} - ${BRAND_NAME}`}
-        description={pageDesc}
-        canonical={SITE_BASE_URL}
-      />
+      {/* <NextSeo */}
+      {/* title={`${pageTitle} - ${BRAND_NAME}`} */}
+      {/* description={pageDesc} */}
+      {/* canonical={SITE_BASE_URL} */}
+      {/* /> */}
 
       <StyledDiv
         sx={{
@@ -281,7 +280,6 @@ const StyledDiv = styled('div')(({ theme }) => ({
 }))
 
 const HEADER_MOBILE = 64
-const HEADER_DESKTOP = 92
 
 const StyledSearchHome = styled('div')(({ theme }) => ({
   color: theme.palette.background.default,
