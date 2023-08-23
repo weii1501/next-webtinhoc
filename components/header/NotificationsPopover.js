@@ -32,7 +32,7 @@ import { useRouter } from 'next/router'
 
 export default function NotificationsPopover () {
   const { user } = useContext(Context)
-  const { message } = useWebSocket('notifications')
+  const { message } = useWebSocket('notifications/')
   const [notifications, setNotifications] = useState([])
 
   const totalUnRead = notifications.filter((item) => item.isRead === false).length

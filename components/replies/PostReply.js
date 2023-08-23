@@ -21,7 +21,7 @@ const TOOLBAR_OPTIONS = [
   ['clean']
 ]
 function PostReply ({ setOpenAnswer, setReplies, data }) {
-  const { sendMessage } = useWebSocket('notifications')
+  const { sendMessage } = useWebSocket('notifications/')
   const router = useRouter()
   const [send, startSend] = useTransition()
   const { slug } = router.query
