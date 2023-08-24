@@ -6,9 +6,7 @@ import { CategoryCard } from '@/components/category'
 import NoSSR from '@/components/NoSSR'
 import { getSubcategories } from '@/apis/apis'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import BreadcrumbsLine from '@/components/breadcrumbs/BreadcrumbsLine'
-import BreadcrumbsContainer
-  from "@/components/breadcrumbs/BreadcrumbsContainer";
+import BreadcrumbsContainer from '@/components/breadcrumbs/BreadcrumbsContainer'
 
 export async function getServerSideProps (context) {
   const { category } = context.params

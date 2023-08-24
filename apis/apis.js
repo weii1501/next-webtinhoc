@@ -29,6 +29,10 @@ export function getCateogry (categorySlug) {
   return query.get(`categories/detail/?category_slug=${categorySlug}`)
 }
 
+export function getAllCategories () {
+  return query.get('categories/list/')
+}
+
 export function getCategories () {
   return query.get('categories/')
 }

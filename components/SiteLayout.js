@@ -1,9 +1,9 @@
 import React from 'react'
 // mui
 import { styled } from '@mui/material/styles'
-// import Header from '@/components/header'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
+import Nav from '@/components/nav'
 // ----------------------------------------------------------------------
 
 const Header = dynamic(() => import('@/components/header'), { ssr: false })
@@ -20,6 +20,7 @@ const APP_BAR_MOBILE = 64
 const APP_BAR_DESKTOP = 92
 
 function SiteLayout (props) {
+  const [open, setOpen] = React.useState(false)
   const router = useRouter()
   for (const i of ignoreHeaderURLsList) {
     if (i.startsWith('rgx')) {
@@ -32,6 +33,7 @@ function SiteLayout (props) {
 
   return (
     <StyledRoot>
+      <Nav open={open} setOpen={setOpen} />
       <Header />
       <Main>
         {props.children}
@@ -45,12 +47,11 @@ function SiteLayout (props) {
 
 export default SiteLayout
 
-const StyledRoot = styled('div')(({ theme }) => ({
+const StyledRoot = styled('div')({
   display: 'flex',
-  flexDirection: 'column',
   minHeight: '100%',
-  overflow: 'hidden'
-}))
+  overflow: 'hidden',
+})
 const Main = styled('div')(({ theme }) => ({
   flexGrow: 1,
   overflow: 'auto',
@@ -60,6 +61,6 @@ const Main = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     paddingTop: APP_BAR_DESKTOP + 24,
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
-  }
+    paddingRight: theme.spacing(2),
+  },
 }))

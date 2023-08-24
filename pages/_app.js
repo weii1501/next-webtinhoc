@@ -3,29 +3,29 @@ import '@/styles/main.scss'
 
 import Head from 'next/head'
 import React from 'react'
-import {useAmp} from 'next/amp'
-import {Provider} from 'react-redux'
+import { useAmp } from 'next/amp'
+import { Provider } from 'react-redux'
 import store from '../store'
 import NextProgressbar from '../components/NextProgressbar'
-import {GoogleAnalytics} from 'nextjs-google-analytics'
+import { GoogleAnalytics } from 'nextjs-google-analytics'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/vi'
-import {StyleProvider} from '@ant-design/cssinjs'
-import {ConfigProvider} from 'antd'
-import {Container, ScopedCssBaseline} from '@mui/material'
+import { StyleProvider } from '@ant-design/cssinjs'
+import { ConfigProvider } from 'antd'
+import { ScopedCssBaseline } from '@mui/material'
 import ThemeProvider from '@/theme'
 import Layout from '@/components/Layout'
 import UserProvider from '@/hooks/context'
-import {appWithTranslation} from 'next-i18next'
-import BreadcrumbsLine from "@/components/breadcrumbs/BreadcrumbsLine";
+import { appWithTranslation } from 'next-i18next'
+import { useRouter } from 'next/router'
 
 dayjs.extend(relativeTime)
 dayjs.locale('vi')
 
 function App ({ Component, pageProps }) {
+  const router = useRouter()
   const isAmp = useAmp()
-
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
@@ -111,19 +111,21 @@ function App ({ Component, pageProps }) {
                 prefixCls='webtinhoc'
               >
                 <Provider store={store()}>
-                  <UserProvider>
-                    <Layout>
-                      {/*<Container*/}
-                      {/*  sx={{*/}
-                      {/*    minHeight: '25px'*/}
-                      {/*  }}*/}
-                      {/*>*/}
-                      {/*  <BreadcrumbsLine />*/}
-                      {/*</Container>*/}
-                      <GoogleAnalytics trackPageViews />
-                      <Component {...pageProps} />
-                    </Layout>
-                  </UserProvider>
+                  {router.pathname === '/login' || router.pathname === '/register'
+                    ? (
+                      <UserProvider>
+                        <GoogleAnalytics trackPageViews />
+                        <Component {...pageProps} />
+                      </UserProvider>
+                      )
+                    : (
+                      <UserProvider>
+                        <Layout>
+                          <GoogleAnalytics trackPageViews />
+                          <Component {...pageProps} />
+                        </Layout>
+                      </UserProvider>
+                      )}
                 </Provider>
               </ConfigProvider>
             </StyleProvider>
