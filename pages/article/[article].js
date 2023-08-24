@@ -129,9 +129,9 @@ function Article ({ article, data, breadcrumbs }) {
   ]
   return (
     <StyledRoot>
-      <TableOfContents
-        data={data}
-      />
+      {/*<TableOfContents*/}
+      {/*  data={data}*/}
+      {/*/>*/}
 
       <BreadcrumbsContainer
         breadcrumbs={breadcrumbs}

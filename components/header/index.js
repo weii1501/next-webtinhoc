@@ -18,7 +18,6 @@ import NotificationsPopover from '@/components/header/NotificationsPopover'
 import AccountPopover from '@/components/header/AccountPopover'
 import Logo from '@/components/logo'
 import { FormCreateArticle } from '@/components/articles'
-import { useSelector } from 'react-redux'
 import { Context } from '@/hooks/context'
 
 const NAV_WIDTH = 280
@@ -31,8 +30,8 @@ const StyledRoot = styled(AppBar)(({ theme }) => ({
   ...bgBlur({ color: theme.palette.background.default }),
   boxShadow: 'none',
   [theme.breakpoints.up('lg')]: {
-    width: `calc(100% - ${0}px)`
-  }
+    width: `calc(100% - ${NAV_WIDTH + 1}px)`,
+  },
 }))
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -45,7 +44,6 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 function Header (props) {
   const { user } = useContext(Context)
-  const store = useSelector((state) => state.UserStore)
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -63,9 +61,9 @@ function Header (props) {
         >
           <Iconify icon='eva:menu-2-fill' />
         </IconButton>
-        <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
-          <Logo />
-        </Box>
+        {/*<Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>*/}
+        {/*  <Logo />*/}
+        {/*</Box>*/}
         <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
         <Stack
@@ -110,7 +108,7 @@ function Header (props) {
   )
 }
 
-export default React.memo(Header)
+export default Header
 
 const style = {
   width: '70%',
