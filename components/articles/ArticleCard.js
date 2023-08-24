@@ -60,7 +60,7 @@ ArticleCard.propTypes = {
 }
 
 export default function ArticleCard ({ article, index }) {
-  console.log(article)
+
   const router = useRouter()
   const theme = useTheme()
   const {

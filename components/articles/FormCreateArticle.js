@@ -1,5 +1,5 @@
 'use client'
-import React, {useTransition} from 'react'
+import React, { useTransition } from 'react'
 import {
   Autocomplete,
   Box,
@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
-import {useTheme} from '@mui/material/styles'
+import { useTheme } from '@mui/material/styles'
 import Iconify from '@/components/iconify'
 import {
   adminUpdateThread,
@@ -20,13 +20,14 @@ import {
   postNewArticle,
   postThread
 } from '@/apis/apis'
-import {Controller, useForm} from 'react-hook-form'
-import {toast} from 'react-toastify'
+import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import TreeView from '@mui/lab/TreeView'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import TreeItem from '@mui/lab/TreeItem'
-import {useTranslation} from 'next-i18next'
+import { useTranslation } from 'next-i18next'
+import { v4 as uuidv4 } from 'uuid'
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -164,6 +165,7 @@ function FormCreateArticle ({ thread, tags: tagsProp, topics: topicsProp, update
               groupBy={(option) => option.category}
               renderGroup={(params) => (
                 <TreeView
+                  key={uuidv4()}
                   aria-label='file system navigator'
                   defaultCollapseIcon={<ExpandMoreIcon />}
                   defaultExpandIcon={<ChevronRightIcon />}
