@@ -13,11 +13,12 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/vi'
 import {StyleProvider} from '@ant-design/cssinjs'
 import {ConfigProvider} from 'antd'
-import {ScopedCssBaseline} from '@mui/material'
+import {Container, ScopedCssBaseline} from '@mui/material'
 import ThemeProvider from '@/theme'
 import Layout from '@/components/Layout'
 import UserProvider from '@/hooks/context'
 import {appWithTranslation} from 'next-i18next'
+import BreadcrumbsLine from "@/components/breadcrumbs/BreadcrumbsLine";
 
 dayjs.extend(relativeTime)
 dayjs.locale('vi')
@@ -112,6 +113,13 @@ function App ({ Component, pageProps }) {
                 <Provider store={store()}>
                   <UserProvider>
                     <Layout>
+                      {/*<Container*/}
+                      {/*  sx={{*/}
+                      {/*    minHeight: '25px'*/}
+                      {/*  }}*/}
+                      {/*>*/}
+                      {/*  <BreadcrumbsLine />*/}
+                      {/*</Container>*/}
                       <GoogleAnalytics trackPageViews />
                       <Component {...pageProps} />
                     </Layout>

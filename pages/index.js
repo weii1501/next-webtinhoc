@@ -18,6 +18,7 @@ import { useTranslation } from 'next-i18next'
 import Iconify from '@/components/iconify'
 import Link from 'next/link'
 import NoSSR from '@/components/NoSSR'
+import BreadcrumbsLine from '@/components/breadcrumbs/BreadcrumbsLine'
 
 export async function getStaticProps ({ locale }) {
   const categories = await getCategories().then(res => res.data).catch(err => console.log(err))

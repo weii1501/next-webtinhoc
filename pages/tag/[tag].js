@@ -1,29 +1,51 @@
 import React from 'react'
-import {Box, Button, Container, Divider, Pagination, Paper, Stack, Typography} from '@mui/material'
+import { Box, Button, Container, Divider, Pagination, Paper, Stack, Typography } from '@mui/material'
 import TagArticles from '@/components/tag/TagArticles'
-import {getTagData} from '@/apis/apis'
-import {ThreadCard} from '@/components/threads'
+import { getTagData } from '@/apis/apis'
+import { ThreadCard } from '@/components/threads'
 import Iconify from '@/components/iconify'
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import BreadcrumbsContainer
+  from '@/components/breadcrumbs/BreadcrumbsContainer'
 
 export async function getServerSideProps (context) {
   const { tag } = context.params
-    const { locale } = context
+  const { locale } = context
   const data = await getTagData(tag).then(res => res.data.data)
+  const breadcrumbs = [
+    {
+      label: 'Trang chủ',
+      url: '/'
+    },
+    {
+      label: 'tag',
+      url: '/404'
+    },
+    {
+      label: `${data.tag?.name}`,
+      url: `/tag/${data.tag?.slug}`
+    }
+  ]
   return {
     props: {
       tag: data.tag,
       articles: data.articles,
       threads: data.threads,
-        ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
+      breadcrumbs,
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
     }
   }
 }
 
-function TagPage ({ tag, articles, threads }) {
+function TagPage ({ tag, articles, threads, breadcrumbs }) {
   const [openThread, setOpenThread] = React.useState(false)
   return (
     <>
+      <BreadcrumbsContainer
+        breadcrumbs={breadcrumbs}
+        maxWidth='md'
+      />
+
       <Container
         maxWidth='md'
       >

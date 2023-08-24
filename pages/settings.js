@@ -5,8 +5,30 @@ import { Controller, useForm } from 'react-hook-form'
 import { Context } from '@/hooks/context'
 import { putUpdateInfo } from '@/apis/user_apis'
 import { toast } from 'react-toastify'
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import BreadcrumbsContainer
+  from "@/components/breadcrumbs/BreadcrumbsContainer";
 
-function SettingsPage () {
+export async function getStaticProps ({ locale }) {
+  const breadcrumbs = [
+    {
+      label: 'Trang chủ',
+      url: '/'
+    },
+    {
+      label: 'Cài đặt',
+      url: '/settings'
+    }
+  ]
+  return {
+    props: {
+      breadcrumbs,
+      ...(await serverSideTranslations(locale, ['common'], null, ['vi', 'en']))
+    }
+  }
+}
+
+function SettingsPage ({ breadcrumbs }) {
   const {
     control,
     setValue,
@@ -65,6 +87,8 @@ function SettingsPage () {
 
   return (
     <>
+      <BreadcrumbsContainer breadcrumbs={breadcrumbs} />
+
       <Container>
         <h1 className='hidden'>Settings</h1>
         <Typography variant='h4' mb={0}>

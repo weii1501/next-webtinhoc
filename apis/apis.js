@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import {AUTH_TOKEN, DJANGO_BASE_URL } from '../constants'
+import { AUTH_TOKEN, DJANGO_BASE_URL } from '../constants'
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
@@ -25,12 +25,20 @@ const query = axios.create({
 //   return Promise.reject(error)
 // })
 
+export function getCateogry (categorySlug) {
+  return query.get(`categories/detail/?category_slug=${categorySlug}`)
+}
+
 export function getCategories () {
   return query.get('categories/')
 }
 
 export function getSubcategories (categorySlug) {
   return query.get(`categories/detail/?category_slug=${categorySlug}`)
+}
+
+export function getTopic (topicSlug) {
+  return query.get(`topics/${topicSlug}/`)
 }
 
 export function getTopics (subcategory) {

@@ -23,15 +23,34 @@ import Link from 'next/link'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { generateRandomCoverUrl } from '@/utils/utils'
+import BreadcrumbsContainer
+  from '@/components/breadcrumbs/BreadcrumbsContainer'
+import TableOfContents from '@/components/threads/TableOfContents'
 // import { node } from 'prop-types'
 
 export async function getServerSideProps (context) {
   const { locale } = context
   const { article } = context.params
   const data = await getArticle(article.split('.').reverse()[0]).then(res => res.data)
+  const breadcrumbs = [
+    {
+      label: 'Trang chủ',
+      url: '/'
+    },
+    {
+      label: 'Bài viết',
+      url: '/404'
+    },
+    {
+      label: data[0]?.title,
+      url: `/article/${data[0]?.slug}.${data[0]?.id}`
+    }
+  ]
+
   return {
     props: {
       article,
+      breadcrumbs,
       data: data[0],
       ...(await serverSideTranslations(locale, [
         'common'
@@ -40,7 +59,7 @@ export async function getServerSideProps (context) {
   }
 }
 
-function Article ({ article, data }) {
+function Article ({ article, data, breadcrumbs }) {
   const { t } = useTranslation('common')
   // console.log(store)
   const [isLike, startLike] = useTransition()
@@ -109,7 +128,16 @@ function Article ({ article, data }) {
     }
   ]
   return (
-    <>
+    <StyledRoot>
+      <TableOfContents
+        data={data}
+      />
+
+      <BreadcrumbsContainer
+        breadcrumbs={breadcrumbs}
+        maxWidth='lg'
+      />
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -130,7 +158,9 @@ function Article ({ article, data }) {
           }}
         />
       </Modal>
-      <Container>
+      <Container
+        maxWidth='lg'
+      >
         <Paper
           sx={{
             p: 3,
@@ -327,7 +357,7 @@ function Article ({ article, data }) {
           />
         </Paper>
       </Container>
-    </>
+    </StyledRoot>
   )
 }
 
@@ -357,6 +387,11 @@ const StyledDiv = styled('div')(({ theme }) => ({
   borderTop: `solid 1px ${theme.palette.divider}`
 }))
 
+const StyledRoot = styled('div')(({ theme }) => ({
+  width: '100%',
+  position: 'relative'
+}))
+
 const StyledButton = styled(Button)(({ theme }) => ({
   width: '100%',
   color: theme.palette.text.secondary
@@ -382,6 +417,18 @@ function HTMLCanvas (htmlContent, handleOpen) {
     // a key must be included for all elements
     if (node.type === 'tag' && node.name === 'b') {
       return <i key={index}>{processNodes(node.children, htmlParserTransform)}</i>
+    }
+
+    if (node.type === 'tag' && node.name === 'h2') {
+      return <h2 id={`heading-${index}`} key={index}>{processNodes(node.children, htmlParserTransform)}</h2>
+    }
+
+    if (node.type === 'tag' && node.name === 'h3') {
+      return <h3 id={`heading-${index}`} key={index}>{processNodes(node.children, htmlParserTransform)}</h3>
+    }
+
+    if (node.type === 'tag' && node.name === 'h4') {
+      return <h4 id={`heading-${index}`} key={index}>{processNodes(node.children, htmlParserTransform)}</h4>
     }
 
     // all links must open in a new window
@@ -430,71 +477,4 @@ function HTMLCanvas (htmlContent, handleOpen) {
     htmlContent, // or whatever
     { transform: htmlParserTransform }
   )
-}
-
-const options = {
-  decodeEntities: true,
-  transform
-}
-
-function transform (node, index) {
-  // return null to block certain elements
-  // don't allow <span> elements
-  if (node.type === 'tag' && node.name === 'span') {
-    return null
-  }
-
-  // Transform <ul> into <ol>
-  // A node can be modified and passed to the convertNodeToElement function which will continue to render it and it's children
-  if (node.type === 'tag' && node.name === 'ul') {
-    node.name = 'ol'
-    return convertNodeToElement(node, index, transform)
-  }
-
-  // return an <i> element for every <b>
-  // a key must be included for all elements
-  if (node.type === 'tag' && node.name === 'b') {
-    return <i key={index}>{processNodes(node.children, transform)}</i>
-  }
-
-  // all links must open in a new window
-  if (node.type === 'tag' && node.name === 'a') {
-    node.attribs.target = '_blank'
-    // console.log(node);
-    // console.log(index);
-    return convertNodeToElement(node, index, transform)
-  }
-
-  if (node.type === 'tag' && node.name === 'img') { // a tag named a
-    const { src } = node.attribs // extract the actual url
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <img
-          onClick={() => onClick(src)}
-          src={src}
-          alt={node.name}
-          style={{
-            display: 'flex',
-            margin: 'auto',
-            maxWidth: 500,
-            maxHeight: 500,
-            my: 2,
-            borderRadius: 2,
-            boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-            cursor: 'pointer'
-          }}
-        />
-        <Typography variant='caption' color='text.secondary' gutterBottom mt={0.5}>
-          Nhấn ảnh để xem ảnh đầy đủ
-        </Typography>
-      </div>
-    )
-  }
 }

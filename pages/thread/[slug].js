@@ -21,15 +21,32 @@ import Link from 'next/link'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useTranslation } from 'next-i18next'
 import { getFromNowShort } from '@/utils/utils'
+import BreadcrumbsContainer
+  from '@/components/breadcrumbs/BreadcrumbsContainer'
 
 export async function getServerSideProps (context) {
   const { locale } = context
   const { slug } = context.params
   const data = await getThread(slug.split('.').reverse()[0]).then(res => res.data)
+  const breadcrumbs = [
+    {
+      label: 'Trang chủ',
+      url: '/'
+    },
+    {
+      label: 'Câu hỏi',
+      url: '/404'
+    },
+    {
+      label: data[0].title,
+      url: `/thread/${data[0].slug}.${data[0].id}`
+    }
+  ]
   return {
     props: {
       slug,
       data: data[0],
+      breadcrumbs,
       ...(await serverSideTranslations(locale, [
         'common'
       ]))
@@ -37,7 +54,7 @@ export async function getServerSideProps (context) {
   }
 }
 
-function Article ({ data }) {
+function Article ({ data, breadcrumbs }) {
   const { t } = useTranslation('common')
   const theme = useTheme()
   const [like, setLike] = React.useState(data.isLiked)
@@ -106,6 +123,8 @@ function Article ({ data }) {
 
   return (
     <>
+      <BreadcrumbsContainer breadcrumbs={breadcrumbs} />
+
       <Modal
         open={open}
         onClose={handleClose}
