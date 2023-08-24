@@ -29,7 +29,7 @@ export async function getStaticProps ({ locale }) {
       tags: hotTags ?? [],
       ...(await serverSideTranslations(locale ?? 'vi', [
         'common'
-      ], null, ['vi', 'en']))
+      ]))
     }
   }
 }
