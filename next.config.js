@@ -8,6 +8,7 @@ const nextConfig = {
   compiler: {
     emotion: true
   },
+  i18n,
   env: {
     spaceID: process.env.spaceID,
     accessTokenDelivery: process.env.accessTokenDelivery
@@ -42,14 +43,12 @@ const nextConfig = {
     })
     return config
   },
-  i18n
+
 }
 
 const plugins = [
 ]
 
 module.exports = () => {
-  return plugins.reduce((acc, next) => next(acc), {
-    ...nextConfig
-  })
+  return plugins.reduce((acc, next) => next(acc), nextConfig, i18n)
 }
