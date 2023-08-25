@@ -69,6 +69,7 @@ export default function ArticleCard ({ article, index }) {
     topic: TopicSlug,
     page
   } = router.query
+  const firstPage = page === '1' || page === undefined
   // const {
   //   cover,
   //   title,
@@ -88,11 +89,11 @@ export default function ArticleCard ({ article, index }) {
   ]
 
   return (
-    <Grid item xs={12} sm={latestPostLarge && page === '1' ? 12 : 6} md={(latestPostLarge && page === '1') ? 6 : 3}>
+    <Grid item xs={12} sm={latestPostLarge && firstPage ? 12 : 6} md={(latestPostLarge && firstPage) ? 6 : 3}>
       <Card sx={{ position: 'relative' }}>
         <StyledCardMedia
           sx={{
-            ...(((latestPostLarge || latestPost) && page === '1') && {
+            ...(((latestPostLarge || latestPost) && firstPage) && {
               pt: 'calc(100% * 4 / 3)',
               '&:after': {
                 top: 0,
@@ -103,7 +104,7 @@ export default function ArticleCard ({ article, index }) {
                 bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72)
               }
             }),
-            ...((latestPostLarge && page === '1') && {
+            ...((latestPostLarge && firstPage) && {
               pt: {
                 xs: 'calc(100% * 4 / 3)',
                 sm: 'calc(100% * 3 / 4.66)'
@@ -121,14 +122,14 @@ export default function ArticleCard ({ article, index }) {
               bottom: -15,
               position: 'absolute',
               color: 'background.paper',
-              ...(((latestPostLarge || latestPost) && page === '1') && { display: 'none' })
+              ...(((latestPostLarge || latestPost) && firstPage) && { display: 'none' })
             }}
           />
           <StyledAvatar
             alt={article.user.username}
             src={`${DJANGO_BASE_URL}${article.user.profileImage}`}
             sx={{
-              ...(((latestPostLarge || latestPost) && page === '1') && {
+              ...(((latestPostLarge || latestPost) && firstPage) && {
                 zIndex: 9,
                 top: 24,
                 left: 24,
@@ -144,7 +145,7 @@ export default function ArticleCard ({ article, index }) {
         <CardContent
           sx={{
             pt: 4,
-            ...(((latestPostLarge || latestPost) && page === '1') && {
+            ...(((latestPostLarge || latestPost) && firstPage) && {
               bottom: 0,
               width: '100%',
               position: 'absolute'
@@ -160,8 +161,8 @@ export default function ArticleCard ({ article, index }) {
             variant='subtitle2'
             underline='hover'
             sx={{
-              ...((latestPostLarge && page === '1') && { typography: 'h5', height: 60 }),
-              ...(((latestPostLarge || latestPost) && page === '1') && {
+              ...((latestPostLarge && firstPage) && { typography: 'h5', height: 60 }),
+              ...(((latestPostLarge || latestPost) && firstPage) && {
                 color: 'common.white'
               })
             }}
@@ -197,14 +198,14 @@ export default function ArticleCard ({ article, index }) {
           {/* </Stack> */}
 
           <StyledInfo>
-            {POST_INFO.map((info, index) => (
+            {POST_INFO?.map((info, index) => (
               <Box
                 key={index}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   ml: index === 0 ? 0 : 1.5,
-                  ...(((latestPostLarge || latestPost) && page === '1') && {
+                  ...(((latestPostLarge || latestPost) && firstPage) && {
                     color: 'grey.500'
                   })
                 }}

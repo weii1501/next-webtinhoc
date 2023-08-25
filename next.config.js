@@ -30,7 +30,7 @@ const nextConfig = {
       transform: '@mui/icons-material/{{member}}'
     }
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.resolve.fallback = { fs: false }
     config.module.rules.forEach((rule) => {
       const { oneOf } = rule
@@ -41,6 +41,11 @@ const nextConfig = {
         })
       }
     })
+
+    // if (isServer) {
+    //   require('./scripts/sitemap-generator')
+    // }
+
     return config
   },
 
