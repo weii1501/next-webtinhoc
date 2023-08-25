@@ -50,7 +50,7 @@ export function getTopics (subcategory) {
 }
 
 export function getAllTopic (topic) {
-  return query.get('categories/list/')
+  return query.get('categories/list-topic/')
 }
 
 export function getArticles (topic, page) {
