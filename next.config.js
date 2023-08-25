@@ -30,6 +30,12 @@ const nextConfig = {
       transform: '@mui/icons-material/{{member}}'
     }
   },
+  rewrites: async () => [
+    {
+      source: '/dynamic-sitemap.xml',
+      destination: '/dynamic-sitemap'
+    }
+  ],
   webpack: (config, { isServer }) => {
     config.resolve.fallback = { fs: false }
     config.module.rules.forEach((rule) => {
