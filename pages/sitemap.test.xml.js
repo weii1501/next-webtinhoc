@@ -4,15 +4,24 @@ import {
   getCategoriesSitemap
 } from '@/apis/sitemap_api'
 
+import { getServerSideSitemap } from 'next-sitemap'
+
 export default function Sitemap () {
   return null
 }
 
 export async function getServerSideProps (ctx) {
-  ctx.res.setHeader('Content-Type', 'text/xml')
-  const xml = await generateSitemap()
-  ctx.res.write(xml)
-  ctx.res.end()
+  // ctx.res.setHeader('Content-Type', 'text/xml')
+  // const xml = await generateSitemap()
+  // ctx.res.write(xml)
+  // ctx.res.end()
+  const reqCategories = await getCategoriesSitemap().then(res => res.data).catch(err => console.log(err))
+  // create categoryPaths
+  const categoryPaths = await reqCategories.map(category => addNextSiteMap(`/${category.slug}`))
+
+  console.log(categoryPaths)
+
+  getServerSideSitemap(ctx, categoryPaths)
 
   return {
     props: {}
@@ -49,18 +58,15 @@ async function generateSitemap () {
   console.log(reqTags)
   // create sitemapBase
   const sitemapBase = [
-    '/',
-    '/create-new-thread',
-    '/new-article',
-    '/login',
-    '/register',
-    'profile'
+    ''
   ]
 
   return (
       `<?xml version="1.0" encoding="UTF-8"?>
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">  
 ${sitemapBase.map(addPage).join('\n')}
+
+${sitemapBase.map(addNextSiteMap).join('\n')}
 
 ${categoryPaths.map(addPage).join('\n')}
 
@@ -90,4 +96,11 @@ function addPage (path) {
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>`
+}
+
+function addNextSiteMap (path) {
+  return {
+    loc: `${process.env.NEXT_PUBLIC_SITE_BASE_URL}${path}`,
+    lastmod: new Date().toISOString()
+  }
 }
