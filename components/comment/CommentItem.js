@@ -47,7 +47,14 @@ function CommentItem ({
       <Grid item xs={1}>
         <Box sx={{ width: '100%' }}>
           <StyledAccount>
-            <Avatar src={`${DJANGO_BASE_URL}${comment.user.profileImage}`} alt='photoURL' />
+            <Avatar
+              src={`${DJANGO_BASE_URL}${comment.user.profileImage}`}
+              alt='photoURL'
+              imgProps={{
+                width: '500',
+                height: '600'
+              }}
+            />
           </StyledAccount>
         </Box>
       </Grid>
@@ -58,9 +65,9 @@ function CommentItem ({
           sx={{ width: '100%' }}
         >
           <StyledMessage>
-            <Typography variant='subtitle2' sx={{ color: 'text.primary', mb: 1 }}>
+            <StyledUsername>
               {comment.user.username}
-            </Typography>
+            </StyledUsername>
             <Typography variant='body2' sx={{ color: 'text.primary' }}>
               {ReactHtmlParser(comment.content)}
             </Typography>
@@ -115,4 +122,15 @@ const StyledMessage = styled('div')(({ theme }) => ({
   padding: theme.spacing(1, 1),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: theme.palette.grey[200]
+}))
+
+const StyledUsername = styled('span')(({ theme }) => ({
+  fontSize: '14px',
+  fontWeight: '700',
+  color: 'text.primary',
+  '&:hover': {
+    color: 'primary.main',
+    textDecoration: 'underline'
+  },
+  marginBottom: 8
 }))

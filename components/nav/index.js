@@ -91,7 +91,14 @@ export default function Nav ({ openNav, onCloseNav }) {
         <Box sx={{ mb: 5, mx: 2.5 }}>
           <Link underline='none'>
             <StyledAccount>
-              <Avatar src={`${DJANGO_BASE_URL}${user?.profileImage}`} alt='photoURL' />
+              <Avatar
+                src={`${DJANGO_BASE_URL}${user?.profileImage}`}
+                alt='photoURL'
+                imgProps={{
+                  width: '500',
+                  height: '600'
+                }}
+              />
 
               <Box sx={{ ml: 2 }}>
                 <Typography variant='subtitle2' sx={{ color: 'text.primary' }}>

@@ -32,21 +32,23 @@ function NavItem ({ item }) {
   const { title, path, icon, info } = item
 
   return (
-    <StyledNavItem
-      component='a'
-      to={path}
-      sx={{
-        '&.active': {
-          color: 'text.primary',
-          bgcolor: 'action.selected',
-          fontWeight: 'fontWeightBold'
-        }
-      }}
-    >
-      {icon && <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>}
+    <li>
+      <StyledNavItem
+        component='a'
+        to={path}
+        sx={{
+          '&.active': {
+            color: 'text.primary',
+            bgcolor: 'action.selected',
+            fontWeight: 'fontWeightBold'
+          }
+        }}
+      >
+        {icon && <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>}
 
-      <ListItemText disableTypography primary={title} />
-      {info && info}
-    </StyledNavItem>
+        <ListItemText disableTypography primary={title} />
+        {info && info}
+      </StyledNavItem>
+    </li>
   )
 }
