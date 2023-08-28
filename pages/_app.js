@@ -63,9 +63,10 @@ function App ({ Component, pageProps }) {
             <link rel='icon' type='image/png' sizes='32x32' href='/favicon/favicon-32x32.png' />
             <link rel='icon' type='image/png' sizes='96x96' href='/favicon/favicon-96x96.png' />
             <link rel='icon' type='image/png' sizes='16x16' href='/favicon/favicon-16x16.png' />
-            <meta name='msapplication-TileColor' content='#ffffff' />
-            <meta name='msapplication-TileImage' content='/favicon/ms-icon-144x144.png' />
-            <meta name='theme-color' content='#995611' />
+            <meta name='msapplication-TileColor' property='og:title' content='#ffffff' />
+            <meta name='msapplication-TileImage' property='og:image' content='/favicon/ms-icon-144x144.png' />
+            <meta name='theme-color' property='og:type' content='#995611' />
+            <meta property='og:url' content='https://www.next-webtinhoc.vercel.com' />
             <link rel='manifest' href='/favicon/manifest.json' />
             <link rel='shortcut icon' href='/favicon/favicon.ico' type='image/x-icon' />
           </>

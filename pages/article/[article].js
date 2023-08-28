@@ -129,9 +129,9 @@ function Article ({ article, data, breadcrumbs }) {
   ]
   return (
     <StyledRoot>
-      {/*<TableOfContents*/}
-      {/*  data={data}*/}
-      {/*/>*/}
+      {/* <TableOfContents */}
+      {/*  data={data} */}
+      {/* /> */}
 
       <BreadcrumbsContainer
         breadcrumbs={breadcrumbs}
@@ -147,6 +147,8 @@ function Article ({ article, data, breadcrumbs }) {
         <img
           src={src}
           alt='img'
+          width='auto'
+          height='auto'
           style={{
             position: 'absolute',
             top: '50%',
@@ -172,9 +174,9 @@ function Article ({ article, data, breadcrumbs }) {
             direction='column'
             alignItems='start'
           >
-            <Typography variant='h3' gutterBottom mb={0}>
+            <StyledTitle>
               {data.title}
-            </Typography>
+            </StyledTitle>
             <Stack
               direction='row'
               spacing={1}
@@ -211,7 +213,14 @@ function Article ({ article, data, breadcrumbs }) {
             <Box sx={{ mb: 2, mt: 1 }}>
               <StyledAccount>
                 <Link href={`/profile/${data.user.id}/summary`}>
-                  <Avatar src={`${data.user.profileImage}`} alt='photoURL' />
+                  <Avatar
+                    src={`${data.user.profileImage}`}
+                    alt='photoURL'
+                    imgProps={{
+                      width: 32,
+                      height: 32
+                    }}
+                  />
                 </Link>
                 <Box sx={{ ml: 1 }}>
                   <Box sx={{
@@ -221,18 +230,9 @@ function Article ({ article, data, breadcrumbs }) {
                   }}
                   >
                     <Link href={`/profile/${data.user.id}/summary`}>
-                      <Typography
-                        variant='h5'
-                        sx={{
-                          color: 'text.primary',
-                          '&:hover': {
-                            color: 'primary.main',
-                            textDecoration: 'underline'
-                          }
-                        }}
-                      >
+                      <StyledUsername>
                         {data.user.username}
-                      </Typography>
+                      </StyledUsername>
                     </Link>
                     <Iconify
                       icon='eva:checkmark-circle-2-fill'
@@ -274,6 +274,8 @@ function Article ({ article, data, breadcrumbs }) {
             <img
               src={data?.cover ?? generateRandomCoverUrl()}
               alt='article cover'
+              width='auto'
+              height='auto'
               style={{
                 display: 'flex',
                 margin: 'auto',
@@ -381,6 +383,16 @@ const StyledAccount = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 0)
 }))
 
+const StyledUsername = styled('span')(({ theme }) => ({
+  fontSize: '14px',
+  fontWeight: '700',
+  color: 'text.primary',
+  '&:hover': {
+    color: 'primary.main',
+    textDecoration: 'underline'
+  }
+}))
+
 const StyledDiv = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   borderBottom: `solid 1px ${theme.palette.divider}`,
@@ -395,6 +407,11 @@ const StyledRoot = styled('div')(({ theme }) => ({
 const StyledButton = styled(Button)(({ theme }) => ({
   width: '100%',
   color: theme.palette.text.secondary
+}))
+
+const StyledTitle = styled('h1')(({ theme }) => ({
+  fontSize: '32px',
+  fontWeight: '700'
 }))
 
 function HTMLCanvas (htmlContent, handleOpen) {
@@ -454,6 +471,8 @@ function HTMLCanvas (htmlContent, handleOpen) {
             onClick={() => onClick(src)}
             src={src}
             alt={node.name}
+            width='auto'
+            height='auto'
             style={{
               display: 'flex',
               margin: 'auto',
