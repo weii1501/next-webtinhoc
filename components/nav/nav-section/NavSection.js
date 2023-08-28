@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types'
 // @mui
 import { Box, List, ListItemText } from '@mui/material'
+import Link from 'next/link'
 //
 import { StyledNavItem, StyledNavItemIcon } from './styles'
+import { useRouter } from 'next/router'
 
 // ----------------------------------------------------------------------
 
@@ -30,18 +32,22 @@ NavItem.propTypes = {
 
 function NavItem ({ item }) {
   const { title, path, icon, info } = item
+  const router = useRouter()
+  console.log(router.asPath)
+  console.log(path)
+  console.log(router.asPath === path)
 
   return (
     <li>
       <StyledNavItem
-        component='a'
+        component={Link}
         to={path}
         sx={{
-          '&.active': {
+          ...(router.asPath === path && {
             color: 'text.primary',
             bgcolor: 'action.selected',
             fontWeight: 'fontWeightBold'
-          }
+          })
         }}
       >
         {icon && <StyledNavItemIcon>{icon && icon}</StyledNavItemIcon>}

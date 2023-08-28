@@ -18,11 +18,13 @@ export default function LanguagePopover () {
     {
       value: 'en',
       label: t('lang_en'),
+      title: 'lang_en',
       icon: '/assets/icons/ic_flag_en.svg'
     },
     {
       value: 'vi',
       label: t('lang_vi'),
+      title: 'lang_vi',
       icon: '/assets/icons/Flag_of_Vietnam.svg'
     }
   ]
@@ -61,6 +63,8 @@ export default function LanguagePopover () {
           alt={language.label}
           width={44}
           height={30}
+          loading='lazy'
+          title={language.title}
           className='w-auto h-full object-cover'
         />
       </IconButton>

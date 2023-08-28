@@ -80,7 +80,7 @@ function Header (props) {
             <IconButton
               onClick={handleOpen}
               type='button'
-              ariaLabel="CreateThread"
+              ariaLabel='Create thread for user'
               sx={{
                 padding: 0,
                 width: 44,

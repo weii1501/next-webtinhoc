@@ -141,7 +141,9 @@ export default React.memo(function AccountPopover () {
               size='md'
               imgProps={{
                 width: '500',
-                height: '600'
+                height: '600',
+                loading: 'lazy',
+                title: 'avt-user'
               }}
             />
           </IconButton>

@@ -72,6 +72,8 @@ function Index ({ categories, tags }) {
             src='/assets/icons/neuromorphic-computing-icon.svg'
             height={500}
             width={500}
+            loading='lazy'
+            title='bg-icon'
             className='w-full h-full object-contain transparent'
           />
         </Box>
@@ -91,6 +93,8 @@ function Index ({ categories, tags }) {
             src='/assets/icons/wired-keyboard-mouse-icon.svg'
             height={500}
             width={500}
+            loading='lazy'
+            title='bg-icon'
             className='w-full h-full object-contain transparent'
           />
         </Box>

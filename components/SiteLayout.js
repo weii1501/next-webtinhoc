@@ -33,12 +33,14 @@ function SiteLayout (props) {
 
   return (
     <StyledRoot>
-      <Nav open={open} setOpen={setOpen} />
+      {router.pathname !== '/home' && <Nav open={open} setOpen={setOpen} />}
       <Header />
-      <Main>
-        {props.children}
-      </Main>
-      <SiteFooter />
+      <StyledContent>
+        <Main>
+          {props.children}
+        </Main>
+        <SiteFooter />
+      </StyledContent>
       <GoTop />
       <Toast />
     </StyledRoot>
@@ -50,8 +52,16 @@ export default SiteLayout
 const StyledRoot = styled('div')({
   display: 'flex',
   minHeight: '100%',
-  overflow: 'hidden',
+  overflow: 'hidden'
 })
+
+const StyledContent = styled('div')({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden'
+})
+
 const Main = styled('div')(({ theme }) => ({
   flexGrow: 1,
   overflow: 'auto',
@@ -61,6 +71,6 @@ const Main = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
     paddingTop: APP_BAR_DESKTOP + 24,
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-  },
+    paddingRight: theme.spacing(2)
+  }
 }))

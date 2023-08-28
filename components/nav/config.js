@@ -9,8 +9,8 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 const navConfig = [
   {
     title: 'Tất cả danh mục',
-    path: '#'
-  },
+    path: '/'
+  }
 ]
 
 export default navConfig

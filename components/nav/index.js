@@ -52,13 +52,13 @@ export default function Nav ({ openNav, onCloseNav }) {
         if (category.parent === null) {
           return {
             title: category.name,
-            path: `/${category.slug}`,
+            path: `/${category.slug}/`,
             icon: icon('ic_tags')
           }
         } else {
           return {
             title: category.name,
-            path: `/${category.parent.slug}/${category.slug}`,
+            path: `/${category.parent.slug}/${category.slug}/`,
             icon: icon('ic_tags')
           }
         }
@@ -96,7 +96,9 @@ export default function Nav ({ openNav, onCloseNav }) {
                 alt='photoURL'
                 imgProps={{
                   width: '500',
-                  height: '600'
+                  height: '600',
+                  loading: 'lazy',
+                  title: 'avt-user'
                 }}
               />
 

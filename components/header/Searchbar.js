@@ -46,11 +46,14 @@ export default function Searchbar () {
       <div>
         {!open && (
           <IconButton
-            ariaLabel='Search'
+            id='labelbuttonsearch'
+            ariaLabel='Search on any page'
+            aria-labelledby='labelbutton'
             type='button'
             onClick={handleOpen}
           >
             <Iconify icon='eva:search-fill' color='text.primary' />
+            <span id='labelbutton' className='hidden'>Search</span>
           </IconButton>
         )}
 

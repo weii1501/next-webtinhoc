@@ -96,6 +96,8 @@ export default function CategoryCard ({ topic, subcategory, category, index }) {
             src={cover ? `${DJANGO_BASE_URL}${cover}` : generateRandomCoverUrl()}
             width={270}
             height={360}
+            loading='lazy'
+            title='category-cover'
           />
         </StyledCardMedia>
 
