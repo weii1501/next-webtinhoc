@@ -30,8 +30,8 @@ const StyledRoot = styled(AppBar)(({ theme }) => ({
   ...bgBlur({ color: theme.palette.background.default }),
   boxShadow: 'none',
   [theme.breakpoints.up('lg')]: {
-    width: `calc(100% - ${NAV_WIDTH + 1}px)`,
-  },
+    width: `calc(100% - ${NAV_WIDTH + 1}px)`
+  }
 }))
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -53,6 +53,7 @@ function Header (props) {
       <StyledToolbar>
         <IconButton
           onClick={() => console.log('click')}
+          type='button'
           sx={{
             mr: 1,
             color: 'text.primary',
@@ -61,9 +62,9 @@ function Header (props) {
         >
           <Iconify icon='eva:menu-2-fill' />
         </IconButton>
-        {/*<Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>*/}
-        {/*  <Logo />*/}
-        {/*</Box>*/}
+        {/* <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}> */}
+        {/*  <Logo /> */}
+        {/* </Box> */}
         <Searchbar />
         <Box sx={{ flexGrow: 1 }} />
         <Stack
@@ -78,13 +79,15 @@ function Header (props) {
           {user &&
             <IconButton
               onClick={handleOpen}
+              type='button'
+              ariaLabel="CreateThread"
               sx={{
                 padding: 0,
                 width: 44,
                 height: 44
               }}
             >
-              <Iconify icon='zondicons:question' />
+              <Iconify icon='zondicons:question' color='text.primary' />
             </IconButton>}
           {user && <NotificationsPopover />}
 

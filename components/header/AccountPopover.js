@@ -139,6 +139,10 @@ export default React.memo(function AccountPopover () {
               src={`${DJANGO_BASE_URL}${user.profileImage}`}
               alt='photoURL'
               size='md'
+              imgProps={{
+                width: '500',
+                height: '600'
+              }}
             />
           </IconButton>
           )

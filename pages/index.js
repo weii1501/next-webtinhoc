@@ -19,6 +19,8 @@ import Iconify from '@/components/iconify'
 import Link from 'next/link'
 import NoSSR from '@/components/NoSSR'
 import BreadcrumbsLine from '@/components/breadcrumbs/BreadcrumbsLine'
+import { BRAND_NAME, SITE_BASE_URL } from '@/constants'
+import { NextSeo } from 'next-seo'
 
 export async function getStaticProps ({ locale }) {
   const categories = await getCategories().then(res => res.data).catch(err => console.log(err))
@@ -36,18 +38,18 @@ export async function getStaticProps ({ locale }) {
 }
 
 function Index ({ categories, tags }) {
-  // const pageTitle = 'Webtinhoc'
-  // const pageDesc = `Website ${BRAND_NAME} chuyên trang về công nghệ, kỹ thuật lập trình và hướng dẫn kỹ năng phát triển trong lĩnh vực web và mobile.`
+  const pageTitle = 'Webtinhoc'
+  const pageDesc = `Website ${BRAND_NAME} chuyên trang về công nghệ, kỹ thuật lập trình và hướng dẫn kỹ năng phát triển trong lĩnh vực web và mobile.`
 
   const { t } = useTranslation('common')
   const theme = useTheme()
   return (
     <>
-      {/* <NextSeo */}
-      {/* title={`${pageTitle} - ${BRAND_NAME}`} */}
-      {/* description={pageDesc} */}
-      {/* canonical={SITE_BASE_URL} */}
-      {/* /> */}
+      <NextSeo
+        title={`${pageTitle} - ${BRAND_NAME}`}
+        description={pageDesc}
+        canonical={SITE_BASE_URL}
+      />
 
       <StyledDiv
         sx={{
@@ -225,12 +227,12 @@ function Index ({ categories, tags }) {
                 gutterBottom
                 mb={0}
                 sx={{
-                  color: 'text.secondary',
+                  color: 'grey.900',
                   px: 1,
                   borderRadius: 1,
                   backgroundColor: 'grey.300',
                   '&:hover': {
-                    color: 'primary.main',
+                    color: 'grey.900',
                     textDecoration: 'underline'
                   }
                 }}

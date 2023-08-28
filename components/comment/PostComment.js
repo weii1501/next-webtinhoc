@@ -86,7 +86,14 @@ function PostCommemt ({ setComments, comments }) {
         <Grid item xs={1}>
           <Box sx={{ width: '100%', height: '100%' }}>
             <StyledAccount>
-              <Avatar src={`${DJANGO_BASE_URL}${user.profileImage}`} alt='photoURL' />
+              <Avatar
+                src={`${DJANGO_BASE_URL}${user.profileImage}`}
+                alt='photoURL'
+                imgProps={{
+                  width: 'auto',
+                  height: 'auto'
+                }}
+              />
             </StyledAccount>
           </Box>
         </Grid>

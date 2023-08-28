@@ -79,7 +79,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <Link href='/'>
+    <Link ariaLabel='Read more about Seminoles new baby mayor' href='/'>
       {logo}
     </Link>
   )

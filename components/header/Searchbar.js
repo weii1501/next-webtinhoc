@@ -45,8 +45,12 @@ export default function Searchbar () {
     <ClickAwayListener onClickAway={handleClose}>
       <div>
         {!open && (
-          <IconButton onClick={handleOpen}>
-            <Iconify icon='eva:search-fill' />
+          <IconButton
+            ariaLabel='Search'
+            type='button'
+            onClick={handleOpen}
+          >
+            <Iconify icon='eva:search-fill' color='text.primary' />
           </IconButton>
         )}
 
@@ -64,7 +68,7 @@ export default function Searchbar () {
                             }
               sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
             />
-            <Button variant='contained' onClick={handleClose}>
+            <Button type='button' variant='contained' onClick={handleClose}>
               Search
             </Button>
           </StyledSearchbar>
