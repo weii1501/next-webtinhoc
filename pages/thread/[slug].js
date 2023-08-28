@@ -54,7 +54,7 @@ export async function getServerSideProps (context) {
   }
 }
 
-function Article ({ data, breadcrumbs }) {
+function Thread ({ data, breadcrumbs }) {
   const { t } = useTranslation('common')
   const theme = useTheme()
   const [like, setLike] = React.useState(data.isLiked)
@@ -383,7 +383,7 @@ function Article ({ data, breadcrumbs }) {
   )
 }
 
-export default NoSSR(Article)
+export default NoSSR(Thread)
 
 const Icon = (action, icon) => {
   if (icon === 'bx:like') {
