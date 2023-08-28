@@ -55,6 +55,7 @@ export async function getServerSideProps (context) {
 }
 
 function Thread ({ data, breadcrumbs }) {
+    console.log('thread page')
   const { t } = useTranslation('common')
   const theme = useTheme()
   const [like, setLike] = React.useState(data.isLiked)
